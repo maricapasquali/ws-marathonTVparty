@@ -1,0 +1,1515 @@
+@prefix : <http://www.semanticweb.org/marica/ontologies/marathontvparty/> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix fo: <http://purl.org/foodontology#> .
+@prefix gr: <http://purl.org/goodrelations/v1#> .
+@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix time: <http://www.w3.org/2006/time#> .
+@prefix event: <http://purl.org/NET/c4dm/event.owl#> .
+@prefix schema: <http://schema.org/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix mtparty: <http://www.semanticweb.org/marica/ontologies/marathontvparty/> .
+@base <http://www.semanticweb.org/marica/ontologies/marathontvparty/> .
+
+<http://www.semanticweb.org/marica/ontologies/marathontvparty> rdf:type owl:Ontology ;
+                                                                owl:versionIRI <http://www.semanticweb.org/marica/ontologies/marathontvparty/1.0.0> ;
+                                                                owl:imports <http://purl.org/foodontology> ,
+                                                                            <http://purl.org/NET/c4dm/event.owl> ;
+                                                                dc:creator "Marica Pasquali" ;
+                                                                dc:description "This ontology was developed with the intention of modeling \"knowledge\" for organizing events involving movie or TV series marathons." ;
+                                                                dc:title "Marathon TV Party" ;
+                                                                dcterms:modified "2023-05-21" .
+
+#################################################################
+#    Datatypes
+#################################################################
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/ratingInteger
+mtparty:ratingInteger rdf:type rdfs:Datatype ;
+                      owl:equivalentClass [ rdf:type rdfs:Datatype ;
+                                            owl:onDatatype xsd:positiveInteger ;
+                                            owl:withRestrictions ( [ xsd:maxInclusive "10"^^xsd:positiveInteger
+                                                                   ]
+                                                                 )
+                                          ] .
+
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  http://purl.org/NET/c4dm/event.owl#place
+event:place owl:equivalentProperty mtparty:physicalPlace .
+
+
+###  http://purl.org/NET/c4dm/event.owl#sub_event
+event:sub_event owl:inverseOf mtparty:isContinuationOf .
+
+
+###  http://purl.org/NET/c4dm/event.owl#time
+event:time owl:equivalentProperty mtparty:startsTVPartyAt .
+
+
+###  http://schema.org/actor
+schema:actor rdf:type owl:ObjectProperty .
+
+
+###  http://schema.org/address
+schema:address rdf:type owl:ObjectProperty .
+
+
+###  http://schema.org/creator
+schema:creator rdf:type owl:ObjectProperty .
+
+
+###  http://schema.org/director
+schema:director rdf:type owl:ObjectProperty .
+
+
+###  http://schema.org/partOfSeason
+schema:partOfSeason rdf:type owl:ObjectProperty ,
+                             owl:FunctionalProperty .
+
+
+###  http://schema.org/partOfSeries
+schema:partOfSeries rdf:type owl:ObjectProperty ,
+                             owl:FunctionalProperty .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/areProjectedOn
+mtparty:areProjectedOn rdf:type owl:ObjectProperty ;
+                       rdfs:domain mtparty:TVPartyShowSequence ;
+                       rdfs:range [ rdf:type owl:Class ;
+                                    owl:unionOf ( mtparty:Device
+                                                  mtparty:ProjectorWithScreen
+                                                )
+                                  ] .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/bringsFood
+mtparty:bringsFood rdf:type owl:ObjectProperty ;
+                   owl:inverseOf mtparty:isBroughtFoodBy ;
+                   rdfs:domain mtparty:PrivateParticipant ;
+                   rdfs:range mtparty:HomeFood .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/buysFood
+mtparty:buysFood rdf:type owl:ObjectProperty ;
+                 rdfs:subPropertyOf gr:seeks ;
+                 owl:inverseOf mtparty:isBoughtFoodBy ;
+                 rdfs:domain mtparty:Participant ;
+                 rdfs:range mtparty:FoodOffering ;
+                 owl:propertyChainAxiom ( mtparty:buysFoods
+                                          rdfs:member
+                                        ) .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/buysFoodAt
+mtparty:buysFoodAt rdf:type owl:ObjectProperty ;
+                   rdfs:subPropertyOf time:hasTime ;
+                   rdf:type owl:FunctionalProperty ;
+                   rdfs:domain mtparty:FoodCart .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/buysFoods
+mtparty:buysFoods rdf:type owl:ObjectProperty ;
+                  owl:inverseOf mtparty:isFoodCartOf ;
+                  rdfs:domain mtparty:Participant ;
+                  rdfs:range mtparty:FoodCart .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/buysTicket
+mtparty:buysTicket rdf:type owl:ObjectProperty ;
+                   rdfs:subPropertyOf gr:seeks ;
+                   owl:inverseOf mtparty:isBoughtTicketBy ;
+                   rdf:type owl:InverseFunctionalProperty ;
+                   rdfs:domain foaf:Person ;
+                   rdfs:range mtparty:BuyerTicketOffering .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/buysTicketAt
+mtparty:buysTicketAt rdf:type owl:ObjectProperty ;
+                     rdfs:subPropertyOf time:hasTime ;
+                     rdf:type owl:FunctionalProperty ;
+                     rdfs:domain mtparty:TicketCart .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/buysTickets
+mtparty:buysTickets rdf:type owl:ObjectProperty ;
+                    owl:inverseOf mtparty:isTicketCartOf ;
+                    rdf:type owl:InverseFunctionalProperty ;
+                    rdfs:domain foaf:Person ;
+                    rdfs:range mtparty:TicketCart .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/capacity
+mtparty:capacity rdf:type owl:ObjectProperty ,
+                          owl:FunctionalProperty ;
+                 rdfs:domain [ rdf:type owl:Class ;
+                               owl:unionOf ( schema:Place
+                                             schema:VirtualLocation
+                                           )
+                             ] ;
+                 rdfs:range gr:QuantitativeValue .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/endsShowAt
+mtparty:endsShowAt rdf:type owl:ObjectProperty ;
+                   rdfs:subPropertyOf time:hasTime ;
+                   rdf:type owl:FunctionalProperty ;
+                   rdfs:domain mtparty:TVPartyShowSequenceItem .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/foodMenu
+mtparty:foodMenu rdf:type owl:ObjectProperty ;
+                 owl:inverseOf mtparty:isFoodMenuOf ;
+                 rdfs:domain mtparty:PublicPhysicalTVParty ;
+                 rdfs:range mtparty:FoodMenu .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/food_in
+mtparty:food_in rdf:type owl:ObjectProperty ;
+                owl:inverseOf mtparty:hasFoodOffering .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/foodseller
+mtparty:foodseller rdf:type owl:ObjectProperty ;
+                   rdfs:subPropertyOf mtparty:seller ;
+                   owl:inverseOf mtparty:foodseller_in ;
+                   rdfs:domain mtparty:PublicPhysicalTVParty ;
+                   rdfs:range mtparty:PublicFoodSeller .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/foodseller_in
+mtparty:foodseller_in rdf:type owl:ObjectProperty .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/hasBudget
+mtparty:hasBudget rdf:type owl:ObjectProperty ;
+                  rdfs:subPropertyOf event:factor ;
+                  rdf:type owl:FunctionalProperty ;
+                  rdfs:domain mtparty:TVParty ;
+                  rdfs:range gr:PriceSpecification .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/hasFoodCategory
+mtparty:hasFoodCategory rdf:type owl:ObjectProperty ;
+                        rdfs:domain fo:Food ;
+                        rdfs:range mtparty:FoodCategory .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/hasFoodOffering
+mtparty:hasFoodOffering rdf:type owl:ObjectProperty ,
+                                 owl:FunctionalProperty ,
+                                 owl:IrreflexiveProperty ;
+                        rdfs:domain [ rdf:type owl:Class ;
+                                      owl:unionOf ( mtparty:FoodCartItem
+                                                    mtparty:FoodVariantOffering
+                                                  )
+                                    ] ;
+                        rdfs:range mtparty:FoodOffering .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/hasFoodPlusOffering
+mtparty:hasFoodPlusOffering rdf:type owl:ObjectProperty ;
+                            rdfs:domain mtparty:FoodOffering ;
+                            rdfs:range mtparty:FoodPlusOffering .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/hasFoodQuantity
+mtparty:hasFoodQuantity rdf:type owl:ObjectProperty ,
+                                 owl:FunctionalProperty ;
+                        rdfs:domain mtparty:FoodCartItem ;
+                        rdfs:range gr:QuantitativeValue .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/hasFoods
+mtparty:hasFoods rdf:type owl:ObjectProperty ;
+                 rdfs:domain [ owl:intersectionOf ( mtparty:PrivateTVParty
+                                                    [ rdf:type owl:Restriction ;
+                                                      owl:onProperty mtparty:physicalPlace ;
+                                                      owl:someValuesFrom schema:Residence
+                                                    ]
+                                                  ) ;
+                               rdf:type owl:Class
+                             ] ;
+                 rdfs:range [ rdf:type owl:Class ;
+                              owl:unionOf ( mtparty:FoodBag
+                                            mtparty:FoodCart
+                                          )
+                            ] .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/hasShow
+mtparty:hasShow rdf:type owl:ObjectProperty ,
+                         owl:FunctionalProperty ;
+                rdfs:domain mtparty:TVPartyShowSequenceItem ;
+                rdfs:range mtparty:Show .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/hasStatus
+mtparty:hasStatus rdf:type owl:ObjectProperty ,
+                           owl:FunctionalProperty ;
+                  rdfs:domain mtparty:TVParty ;
+                  rdfs:range mtparty:TVPartyStatus .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/hasTicketModel
+mtparty:hasTicketModel rdf:type owl:ObjectProperty ;
+                       rdfs:subPropertyOf gr:hasMakeAndModel ;
+                       rdf:type owl:FunctionalProperty ;
+                       rdfs:domain mtparty:Ticket ;
+                       rdfs:range mtparty:TicketModel .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/includesFood
+mtparty:includesFood rdf:type owl:ObjectProperty ;
+                     rdfs:subPropertyOf gr:includes ;
+                     rdf:type owl:FunctionalProperty ;
+                     rdfs:domain mtparty:FoodOffering ;
+                     rdfs:range mtparty:TakeawayFood .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/includesFoodPlus
+mtparty:includesFoodPlus rdf:type owl:ObjectProperty ;
+                         rdfs:subPropertyOf gr:includes ;
+                         rdf:type owl:FunctionalProperty ;
+                         rdfs:domain mtparty:FoodPlusOffering ;
+                         rdfs:range mtparty:FoodPlus .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/includesTicket
+mtparty:includesTicket rdf:type owl:ObjectProperty ;
+                       rdfs:subPropertyOf gr:includes ;
+                       rdf:type owl:FunctionalProperty ,
+                                owl:InverseFunctionalProperty ;
+                       rdfs:domain mtparty:BuyerTicketOffering ;
+                       rdfs:range mtparty:Ticket ;
+                       owl:propertyDisjointWith mtparty:includesTicketModel .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/includesTicketModel
+mtparty:includesTicketModel rdf:type owl:ObjectProperty ;
+                            rdfs:subPropertyOf gr:includes ;
+                            owl:inverseOf mtparty:isTicketModelIncludedIn ;
+                            rdf:type owl:FunctionalProperty ,
+                                     owl:InverseFunctionalProperty ;
+                            rdfs:domain mtparty:SellerTicketOffering ;
+                            rdfs:range mtparty:TicketModel .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/isBoughtFoodBy
+mtparty:isBoughtFoodBy rdf:type owl:ObjectProperty .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/isBoughtTicketBy
+mtparty:isBoughtTicketBy rdf:type owl:ObjectProperty .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/isBroughtFoodBy
+mtparty:isBroughtFoodBy rdf:type owl:ObjectProperty .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/isContinuationOf
+mtparty:isContinuationOf rdf:type owl:ObjectProperty ,
+                                  owl:FunctionalProperty ,
+                                  owl:IrreflexiveProperty .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/isFoodCartOf
+mtparty:isFoodCartOf rdf:type owl:ObjectProperty .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/isFoodMenuOf
+mtparty:isFoodMenuOf rdf:type owl:ObjectProperty .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/isMemberOf
+mtparty:isMemberOf rdf:type owl:ObjectProperty ;
+                   owl:inverseOf rdfs:member .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/isReactionOf
+mtparty:isReactionOf rdf:type owl:ObjectProperty ,
+                              owl:FunctionalProperty ;
+                     rdfs:domain mtparty:Reaction ;
+                     rdfs:range mtparty:Participant .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/isResidenceOf
+mtparty:isResidenceOf rdf:type owl:ObjectProperty ;
+                      rdfs:domain schema:Residence ;
+                      rdfs:range mtparty:PrivateParticipant .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/isSoldFoodBy
+mtparty:isSoldFoodBy rdf:type owl:ObjectProperty ;
+                     owl:inverseOf mtparty:sellsFood .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/isSoldTicketBy
+mtparty:isSoldTicketBy rdf:type owl:ObjectProperty ;
+                       owl:inverseOf mtparty:sellsTicket .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/isTicketCartOf
+mtparty:isTicketCartOf rdf:type owl:ObjectProperty .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/isTicketModelIncludedIn
+mtparty:isTicketModelIncludedIn rdf:type owl:ObjectProperty .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/location
+mtparty:location rdf:type owl:ObjectProperty ,
+                          owl:FunctionalProperty ;
+                 rdfs:domain mtparty:TVParty .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/organizer
+mtparty:organizer rdf:type owl:ObjectProperty ;
+                  rdfs:subPropertyOf event:agent ;
+                  owl:inverseOf mtparty:organizer_in ;
+                  rdfs:domain mtparty:TVParty ;
+                  rdfs:range mtparty:Organizer .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/organizer_in
+mtparty:organizer_in rdf:type owl:ObjectProperty .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/participant
+mtparty:participant rdf:type owl:ObjectProperty ;
+                    rdfs:subPropertyOf event:agent ;
+                    owl:inverseOf mtparty:participant_in ;
+                    rdfs:domain mtparty:TVParty ;
+                    rdfs:range mtparty:Participant ;
+                    owl:propertyChainAxiom ( mtparty:participantWithTicket
+                                             mtparty:pwt_person
+                                           ) .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/participantWithTicket
+mtparty:participantWithTicket rdf:type owl:ObjectProperty ,
+                                       owl:InverseFunctionalProperty ;
+                              rdfs:domain mtparty:PublicTVParty ;
+                              rdfs:range mtparty:ParticipantWithTicket .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/participant_in
+mtparty:participant_in rdf:type owl:ObjectProperty .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/paysEntrance
+mtparty:paysEntrance rdf:type owl:ObjectProperty ,
+                              owl:FunctionalProperty ;
+                     rdfs:domain mtparty:PublicParticipant ;
+                     rdfs:range gr:PriceSpecification .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/physicalPlace
+mtparty:physicalPlace rdf:type owl:ObjectProperty ;
+                      rdfs:subPropertyOf mtparty:location ;
+                      rdf:type owl:FunctionalProperty ;
+                      rdfs:range schema:Place ;
+                      owl:propertyDisjointWith mtparty:virtualPlace .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/pws_projector
+mtparty:pws_projector rdf:type owl:ObjectProperty ,
+                               owl:FunctionalProperty ;
+                      rdfs:domain mtparty:ProjectorWithScreen ;
+                      rdfs:range mtparty:Projector .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/pws_screen
+mtparty:pws_screen rdf:type owl:ObjectProperty ,
+                            owl:FunctionalProperty ;
+                   rdfs:domain mtparty:ProjectorWithScreen ;
+                   rdfs:range mtparty:ScreenProjector .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/pwt_person
+mtparty:pwt_person rdf:type owl:ObjectProperty ,
+                            owl:FunctionalProperty ,
+                            owl:InverseFunctionalProperty ;
+                   rdfs:domain mtparty:ParticipantWithTicket ;
+                   rdfs:range foaf:Person .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/pwt_ticket
+mtparty:pwt_ticket rdf:type owl:ObjectProperty ,
+                            owl:FunctionalProperty ,
+                            owl:InverseFunctionalProperty ;
+                   rdfs:domain mtparty:ParticipantWithTicket ;
+                   rdfs:range mtparty:Ticket .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/reaction
+mtparty:reaction rdf:type owl:ObjectProperty ;
+                 rdfs:subPropertyOf event:product ;
+                 owl:inverseOf mtparty:reaction_in ;
+                 rdf:type owl:InverseFunctionalProperty ;
+                 rdfs:range mtparty:Reaction .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/reaction_in
+mtparty:reaction_in rdf:type owl:ObjectProperty .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/relatedToPublicTVParty
+mtparty:relatedToPublicTVParty rdf:type owl:ObjectProperty ,
+                                        owl:FunctionalProperty ,
+                                        owl:InverseFunctionalProperty ;
+                               rdfs:domain mtparty:TicketModel ;
+                               rdfs:range mtparty:PublicTVParty .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/seller
+mtparty:seller rdf:type owl:ObjectProperty ;
+               rdfs:subPropertyOf event:agent ;
+               owl:inverseOf mtparty:seller_in ;
+               rdfs:domain mtparty:PublicTVParty ;
+               rdfs:range mtparty:Seller .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/seller_in
+mtparty:seller_in rdf:type owl:ObjectProperty .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sellsFood
+mtparty:sellsFood rdf:type owl:ObjectProperty ;
+                  rdfs:subPropertyOf gr:offers ;
+                  rdf:type owl:InverseFunctionalProperty ;
+                  rdfs:domain mtparty:FoodSeller ;
+                  rdfs:range mtparty:FoodOffering .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sellsTicket
+mtparty:sellsTicket rdf:type owl:ObjectProperty ;
+                    rdfs:subPropertyOf gr:offers ;
+                    rdf:type owl:InverseFunctionalProperty ;
+                    rdfs:domain mtparty:TicketSeller ;
+                    rdfs:range mtparty:SellerTicketOffering .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/startsShowAt
+mtparty:startsShowAt rdf:type owl:ObjectProperty ;
+                     rdfs:subPropertyOf time:hasTime ;
+                     rdf:type owl:FunctionalProperty ;
+                     rdfs:domain mtparty:TVPartyShowSequenceItem .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/startsTVPartyAt
+mtparty:startsTVPartyAt rdf:type owl:ObjectProperty ;
+                        rdfs:subPropertyOf time:hasTime ;
+                        rdf:type owl:FunctionalProperty ;
+                        rdfs:domain mtparty:TVParty .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/ticketseller
+mtparty:ticketseller rdf:type owl:ObjectProperty ;
+                     rdfs:subPropertyOf mtparty:seller ;
+                     owl:inverseOf mtparty:ticketseller_in ;
+                     rdfs:range mtparty:TicketSeller .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/ticketseller_in
+mtparty:ticketseller_in rdf:type owl:ObjectProperty ;
+                        owl:propertyChainAxiom ( mtparty:sellsTicket
+                                                 mtparty:includesTicket
+                                                 mtparty:relatedToPublicTVParty
+                                               ) .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/tvPartyShowSequence
+mtparty:tvPartyShowSequence rdf:type owl:ObjectProperty ;
+                            rdfs:subPropertyOf event:factor ;
+                            rdf:type owl:FunctionalProperty ;
+                            rdfs:range mtparty:TVPartyShowSequence .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/virtualPlace
+mtparty:virtualPlace rdf:type owl:ObjectProperty ;
+                     rdfs:subPropertyOf mtparty:location ;
+                     rdf:type owl:FunctionalProperty ,
+                              owl:InverseFunctionalProperty ;
+                     rdfs:range schema:VirtualLocation .
+
+
+###  http://www.w3.org/1999/02/22-rdf-syntax-ns#_1
+rdf:_1 rdf:type owl:ObjectProperty ;
+       rdfs:subPropertyOf rdfs:member .
+
+
+###  http://www.w3.org/1999/02/22-rdf-syntax-ns#_2
+rdf:_2 rdf:type owl:ObjectProperty ;
+       rdfs:subPropertyOf rdfs:member .
+
+
+###  http://www.w3.org/1999/02/22-rdf-syntax-ns#_3
+rdf:_3 rdf:type owl:ObjectProperty ;
+       rdfs:subPropertyOf rdfs:member .
+
+
+###  http://www.w3.org/1999/02/22-rdf-syntax-ns#_4
+rdf:_4 rdf:type owl:ObjectProperty ;
+       rdfs:subPropertyOf rdfs:member .
+
+
+###  http://www.w3.org/1999/02/22-rdf-syntax-ns#_5
+rdf:_5 rdf:type owl:ObjectProperty ;
+       rdfs:subPropertyOf rdfs:member .
+
+
+###  http://www.w3.org/2000/01/rdf-schema#member
+rdfs:member rdf:type owl:ObjectProperty ;
+            rdfs:isDefinedBy "http://www.w3.org/2000/01/rdf-schema" ;
+            rdfs:seeAlso "https://www.w3.org/TR/rdf-schema/#ch_member" .
+
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  http://schema.org/genre
+schema:genre rdf:type owl:DatatypeProperty .
+
+
+###  http://schema.org/url
+schema:url rdf:type owl:DatatypeProperty .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/comment
+mtparty:comment rdf:type owl:DatatypeProperty ,
+                         owl:FunctionalProperty ;
+                rdfs:domain mtparty:Reaction ;
+                rdfs:range xsd:string ;
+                rdfs:comment "This property specifies the comment of review of participant in TV party." .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/password
+mtparty:password rdf:type owl:DatatypeProperty ,
+                          owl:FunctionalProperty ;
+                 rdfs:domain mtparty:VirtualTicket ;
+                 rdfs:range xsd:string ;
+                 rdfs:comment "This property specifies the one of two credential (password) that is associated one ticket for access a public virtual TV Party." .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/rating
+mtparty:rating rdf:type owl:DatatypeProperty ,
+                        owl:FunctionalProperty ;
+               rdfs:domain mtparty:Reaction ;
+               rdfs:range mtparty:ratingInteger ;
+               rdfs:comment "This property specifies the number rating (1 to 10) of review of participant in TV party." .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/row
+mtparty:row rdf:type owl:DatatypeProperty ,
+                     owl:FunctionalProperty ;
+            rdfs:domain mtparty:PhysicalTicket ;
+            rdfs:range xsd:string ;
+            rdfs:comment """This property specifies one of the two coordinates (row) where the participant will have to sit.
+This property is associated with a ticket to access a public physical TV party.""" .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/runtimeMinutes
+mtparty:runtimeMinutes rdf:type owl:DatatypeProperty ,
+                                owl:FunctionalProperty ;
+                       rdfs:domain mtparty:Show ;
+                       rdfs:range xsd:positiveInteger ;
+                       rdfs:comment "This property specifies the duration of the Show (movie, episode) in minutes." .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/seat
+mtparty:seat rdf:type owl:DatatypeProperty ,
+                      owl:FunctionalProperty ;
+             rdfs:domain mtparty:PhysicalTicket ;
+             rdfs:range xsd:positiveInteger ;
+             rdfs:comment """This property specifies one of the two coordinates (seat) where the participant will have to sit.
+This property is associated with a ticket to access a public physical TV party.""" .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/username
+mtparty:username rdf:type owl:DatatypeProperty ,
+                          owl:FunctionalProperty ;
+                 rdfs:domain mtparty:VirtualTicket ;
+                 rdfs:range xsd:string ;
+                 rdfs:comment "This property specifies the one of two credential (username) that is associated one ticket for access a public virtual TV Party." .
+
+
+###  http://www.w3.org/2003/01/geo/wgs84_pos#lat
+geo:lat rdf:type owl:DatatypeProperty .
+
+
+###  http://www.w3.org/2003/01/geo/wgs84_pos#long
+geo:long rdf:type owl:DatatypeProperty .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://purl.org/NET/c4dm/event.owl#Event
+event:Event owl:equivalentClass mtparty:TVParty .
+
+
+###  http://schema.org/Episode
+schema:Episode rdf:type owl:Class ;
+               rdfs:subClassOf mtparty:Show ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty schema:partOfSeason ;
+                                 owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                 owl:onClass schema:TVSeason
+                               ] ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty schema:partOfSeries ;
+                                 owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                 owl:onClass schema:TVSeries
+                               ] ;
+               owl:disjointWith schema:Movie .
+
+
+###  http://schema.org/Movie
+schema:Movie rdf:type owl:Class ;
+             rdfs:subClassOf mtparty:Show .
+
+
+###  http://schema.org/Place
+schema:Place rdf:type owl:Class ;
+             owl:equivalentClass [ rdf:type owl:Class ;
+                                   owl:unionOf ( schema:Residence
+                                                 mtparty:PublicPlace
+                                               )
+                                 ] ;
+             rdfs:subClassOf [ rdf:type owl:Class ;
+                               owl:unionOf ( [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
+                                                                      owl:onProperty geo:lat ;
+                                                                      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                                      owl:onDataRange xsd:decimal
+                                                                    ]
+                                                                    [ rdf:type owl:Restriction ;
+                                                                      owl:onProperty geo:long ;
+                                                                      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                                      owl:onDataRange xsd:decimal
+                                                                    ]
+                                                                  ) ;
+                                               rdf:type owl:Class
+                                             ]
+                                             [ rdf:type owl:Restriction ;
+                                               owl:onProperty schema:address ;
+                                               owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                               owl:onClass schema:PostalAddress
+                                             ]
+                                           )
+                             ] ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty mtparty:capacity ;
+                               owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                               owl:onClass gr:QuantitativeValue
+                             ] ;
+             owl:disjointWith schema:VirtualLocation ;
+             rdfs:comment "Physical place where TVParty take place." .
+
+
+###  http://schema.org/PostalAddress
+schema:PostalAddress rdf:type owl:Class .
+
+
+###  http://schema.org/Residence
+schema:Residence rdf:type owl:Class ;
+                 rdfs:subClassOf schema:Place ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty mtparty:isResidenceOf ;
+                                   owl:someValuesFrom mtparty:PrivateParticipant
+                                 ] ;
+                 owl:disjointWith mtparty:PublicPlace ;
+                 rdfs:comment "Private physical place where TVParty take place, i.e. the place where a participant lives." .
+
+
+###  http://schema.org/TVSeason
+schema:TVSeason rdf:type owl:Class ;
+                rdfs:subClassOf [ rdf:type owl:Restriction ;
+                                  owl:onProperty schema:partOfSeries ;
+                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                  owl:onClass schema:TVSeries
+                                ] .
+
+
+###  http://schema.org/TVSeries
+schema:TVSeries rdf:type owl:Class .
+
+
+###  http://schema.org/VirtualLocation
+schema:VirtualLocation rdf:type owl:Class ;
+                       rdfs:subClassOf [ rdf:type owl:Restriction ;
+                                         owl:onProperty mtparty:capacity ;
+                                         owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                         owl:onClass gr:QuantitativeValue
+                                       ] ,
+                                       [ rdf:type owl:Restriction ;
+                                         owl:onProperty schema:url ;
+                                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                         owl:onDataRange xsd:anyURI
+                                       ] ;
+                       rdfs:comment "Virtual place where TVParty take place." .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/BuyerTicketOffering
+mtparty:BuyerTicketOffering rdf:type owl:Class ;
+                            owl:equivalentClass [ rdf:type owl:Restriction ;
+                                                  owl:onProperty mtparty:includesTicket ;
+                                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                  owl:onClass mtparty:Ticket
+                                                ] ;
+                            rdfs:subClassOf mtparty:TicketOffering ;
+                            owl:disjointWith mtparty:SellerTicketOffering ;
+                            rdfs:comment "Offer relating to a ticket that one person can buy." .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/ContinueEvent
+mtparty:ContinueEvent rdf:type owl:Class ;
+                      owl:equivalentClass [ owl:intersectionOf ( event:Event
+                                                                 [ rdf:type owl:Restriction ;
+                                                                   owl:onProperty mtparty:isContinuationOf ;
+                                                                   owl:someValuesFrom event:Event
+                                                                 ]
+                                                               ) ;
+                                            rdf:type owl:Class
+                                          ] ;
+                      rdfs:comment "Class representing a event that is continuation of another event." .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/Device
+mtparty:Device rdf:type owl:Class ;
+               rdfs:subClassOf gr:SomeItems ;
+               owl:disjointWith mtparty:Projector ,
+                                mtparty:ScreenProjector ;
+               rdfs:comment "Device to play the show sequence on." .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/FoodBag
+mtparty:FoodBag rdf:type owl:Class ;
+                rdfs:subClassOf rdf:Bag ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty rdfs:member ;
+                                  owl:allValuesFrom mtparty:HomeFood
+                                ] ;
+                owl:disjointWith mtparty:FoodCart ;
+                rdfs:comment "Bag of home food brought by a private participant to Private TV Party ." .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/FoodCart
+mtparty:FoodCart rdf:type owl:Class ;
+                 rdfs:subClassOf rdf:Bag ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty rdfs:member ;
+                                   owl:allValuesFrom [ rdf:type owl:Class ;
+                                                       owl:unionOf ( mtparty:FoodCartItem
+                                                                     mtparty:FoodOffering
+                                                                   )
+                                                     ]
+                                 ] ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty mtparty:buysFoodAt ;
+                                   owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                   owl:onClass time:TemporalEntity
+                                 ] ;
+                 owl:disjointWith mtparty:FoodMenu ,
+                                  mtparty:TicketCart ;
+                 rdfs:comment "Cart of takeaway food purchased by a participant." .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/FoodCartItem
+mtparty:FoodCartItem rdf:type owl:Class ;
+                     rdfs:subClassOf [ rdf:type owl:Restriction ;
+                                       owl:onProperty mtparty:hasFoodOffering ;
+                                       owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                       owl:onClass mtparty:FoodOffering
+                                     ] ,
+                                     [ rdf:type owl:Restriction ;
+                                       owl:onProperty mtparty:hasFoodQuantity ;
+                                       owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                       owl:onClass gr:QuantitativeValue
+                                     ] ;
+                     owl:disjointWith mtparty:FoodOffering ;
+                     rdfs:comment "Class representing the food offering in the cart in a certain quantity." .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/FoodCategory
+mtparty:FoodCategory rdf:type owl:Class ;
+                     rdfs:comment "Category of Food." .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/FoodMenu
+mtparty:FoodMenu rdf:type owl:Class ;
+                 rdfs:subClassOf rdf:Bag ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty rdfs:member ;
+                                   owl:allValuesFrom [ rdf:type owl:Class ;
+                                                       owl:unionOf ( mtparty:FoodOffering
+                                                                     mtparty:FoodPlusOffering
+                                                                   )
+                                                     ]
+                                 ] ;
+                 owl:disjointWith mtparty:TicketCart ;
+                 rdfs:comment "Menu of food offering that Public Physical Tv Party offers." .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/FoodOffering
+mtparty:FoodOffering rdf:type owl:Class ;
+                     rdfs:subClassOf mtparty:SellingOffering ,
+                                     [ rdf:type owl:Restriction ;
+                                       owl:onProperty gr:hasEligibleQuantity ;
+                                       owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                       owl:onClass gr:QuantitativeValue
+                                     ] ,
+                                     [ rdf:type owl:Restriction ;
+                                       owl:onProperty mtparty:includesFood ;
+                                       owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                       owl:onClass mtparty:TakeawayFood
+                                     ] ;
+                     owl:disjointWith mtparty:TicketOffering ;
+                     rdfs:comment "Offer relating to a takeaway food that participants can buy and/or a food seller can sell." .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/FoodPlus
+mtparty:FoodPlus rdf:type owl:Class ;
+                 rdfs:subClassOf fo:Food ;
+                 owl:disjointWith mtparty:HomeFood ,
+                                  mtparty:TakeawayFood ;
+                 rdfs:comment "Food that can be added to a takeaway food. This type of food cannot be sold separately." .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/FoodPlusOffering
+mtparty:FoodPlusOffering rdf:type owl:Class ;
+                         rdfs:subClassOf mtparty:NoSellingSeparatedOffering ,
+                                         [ rdf:type owl:Restriction ;
+                                           owl:onProperty mtparty:includesFoodPlus ;
+                                           owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                           owl:onClass mtparty:FoodPlus
+                                         ] ;
+                         rdfs:comment "Offer relating to FoodPlus that cannot be sold separately." .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/FoodSeller
+mtparty:FoodSeller rdf:type owl:Class ;
+                   rdfs:subClassOf mtparty:Seller ;
+                   rdfs:comment "Agent that sells food." .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/FoodVariantOffering
+mtparty:FoodVariantOffering rdf:type owl:Class ;
+                            owl:equivalentClass [ owl:intersectionOf ( mtparty:FoodOffering
+                                                                       [ rdf:type owl:Restriction ;
+                                                                         owl:onProperty mtparty:hasFoodPlusOffering ;
+                                                                         owl:someValuesFrom mtparty:FoodPlusOffering
+                                                                       ]
+                                                                     ) ;
+                                                  rdf:type owl:Class
+                                                ] ;
+                            rdfs:subClassOf [ rdf:type owl:Restriction ;
+                                              owl:onProperty mtparty:hasFoodOffering ;
+                                              owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                              owl:onClass mtparty:FoodOffering
+                                            ] ;
+                            rdfs:comment "Class representing a food offering with an food plus offering or a food offering that relate to another food offering with an food plus offering." .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/HomeFood
+mtparty:HomeFood rdf:type owl:Class ;
+                 rdfs:subClassOf fo:Food ;
+                 owl:disjointWith mtparty:TakeawayFood ;
+                 rdfs:comment "Homemade food or a more general concept of food, i.e. without having to specify who sold it but simply who brought it to the Private TV Party." .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/NoSellingSeparatedOffering
+mtparty:NoSellingSeparatedOffering rdf:type owl:Class ;
+                                   owl:equivalentClass [ rdf:type owl:Restriction ;
+                                                         owl:onProperty gr:hasBusinessFunction ;
+                                                         owl:hasValue mtparty:SellNotSeparated
+                                                       ] ;
+                                   rdfs:subClassOf gr:Offering ,
+                                                   [ rdf:type owl:Restriction ;
+                                                     owl:onProperty gr:hasEligibleQuantity ;
+                                                     owl:someValuesFrom gr:QuantitativeValue
+                                                   ] ,
+                                                   [ rdf:type owl:Restriction ;
+                                                     owl:onProperty gr:hasPriceSpecification ;
+                                                     owl:someValuesFrom gr:QualitativeValue
+                                                   ] ;
+                                   owl:disjointWith mtparty:SellingOffering ;
+                                   rdfs:comment "The superclass of all offerings that cannot be sold separately." .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/Organizer
+mtparty:Organizer rdf:type owl:Class ;
+                  owl:equivalentClass [ rdf:type owl:Restriction ;
+                                        owl:onProperty mtparty:organizer_in ;
+                                        owl:someValuesFrom mtparty:TVParty
+                                      ] ;
+                  rdfs:subClassOf foaf:Agent ;
+                  rdfs:comment "Agent tha thas the idea of TV Party and organizes it." .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/PC
+mtparty:PC rdf:type owl:Class ;
+           rdfs:subClassOf mtparty:Device ;
+           owl:disjointWith mtparty:SmartPhone ,
+                            mtparty:SmartTV ,
+                            mtparty:Tablet .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/Participant
+mtparty:Participant rdf:type owl:Class ;
+                    owl:equivalentClass [ rdf:type owl:Restriction ;
+                                          owl:onProperty mtparty:participant_in ;
+                                          owl:someValuesFrom mtparty:TVParty
+                                        ] ;
+                    rdfs:subClassOf foaf:Agent ;
+                    rdfs:comment "Agent that participates in TV Party." .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/ParticipantWithTicket
+mtparty:ParticipantWithTicket rdf:type owl:Class ;
+                              owl:equivalentClass [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
+                                                                           owl:onProperty mtparty:pwt_person ;
+                                                                           owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                                           owl:onClass foaf:Person
+                                                                         ]
+                                                                         [ rdf:type owl:Restriction ;
+                                                                           owl:onProperty mtparty:pwt_ticket ;
+                                                                           owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                                           owl:onClass mtparty:Ticket
+                                                                         ]
+                                                                       ) ;
+                                                    rdf:type owl:Class
+                                                  ] ;
+                              rdfs:comment "Class representing a person with a ticket using to attend a Public TV Party." .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/PhysicalTicket
+mtparty:PhysicalTicket rdf:type owl:Class ;
+                       owl:equivalentClass [ owl:intersectionOf ( mtparty:Ticket
+                                                                  [ rdf:type owl:Restriction ;
+                                                                    owl:onProperty mtparty:row ;
+                                                                    owl:someValuesFrom xsd:string
+                                                                  ]
+                                                                  [ rdf:type owl:Restriction ;
+                                                                    owl:onProperty mtparty:seat ;
+                                                                    owl:someValuesFrom xsd:positiveInteger
+                                                                  ]
+                                                                ) ;
+                                             rdf:type owl:Class
+                                           ] ;
+                       owl:disjointWith mtparty:VirtualTicket ;
+                       rdfs:comment "Physical ticket where the reserved seat is indicated." .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/PrivateParticipant
+mtparty:PrivateParticipant rdf:type owl:Class ;
+                           owl:equivalentClass [ rdf:type owl:Restriction ;
+                                                 owl:onProperty mtparty:participant_in ;
+                                                 owl:someValuesFrom mtparty:PrivateTVParty
+                                               ] ;
+                           rdfs:subClassOf mtparty:Participant ;
+                           rdfs:comment "Agent that participates in Private TV Party." .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/PrivateTVParty
+mtparty:PrivateTVParty rdf:type owl:Class ;
+                       rdfs:subClassOf mtparty:TVParty ,
+                                       [ rdf:type owl:Restriction ;
+                                         owl:onProperty mtparty:physicalPlace ;
+                                         owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                         owl:onClass schema:Residence
+                                       ] ;
+                       owl:disjointWith mtparty:PublicTVParty ;
+                       rdfs:comment "TVParty which could take place in a residence of one or more participants." .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/Projector
+mtparty:Projector rdf:type owl:Class ;
+                  rdfs:subClassOf gr:SomeItems ;
+                  owl:disjointWith mtparty:ScreenProjector ;
+                  rdfs:comment "Projector" ;
+                  rdfs:seeAlso "https://en.wikipedia.org/wiki/Projector" .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/ProjectorWithScreen
+mtparty:ProjectorWithScreen rdf:type owl:Class ;
+                            owl:equivalentClass [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
+                                                                         owl:onProperty mtparty:pws_projector ;
+                                                                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                                         owl:onClass mtparty:Projector
+                                                                       ]
+                                                                       [ rdf:type owl:Restriction ;
+                                                                         owl:onProperty mtparty:pws_screen ;
+                                                                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                                         owl:onClass mtparty:ScreenProjector
+                                                                       ]
+                                                                     ) ;
+                                                  rdf:type owl:Class
+                                                ] ;
+                            rdfs:comment "Class representing a projector with a relative white screen to play the shows." .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/PublicFoodSeller
+mtparty:PublicFoodSeller rdf:type owl:Class ;
+                         owl:equivalentClass [ rdf:type owl:Restriction ;
+                                               owl:onProperty mtparty:foodseller_in ;
+                                               owl:someValuesFrom mtparty:PublicPhysicalTVParty
+                                             ] ;
+                         rdfs:subClassOf mtparty:FoodSeller ;
+                         rdfs:comment "Agent that sells food in Public Physical TV Party." .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/PublicParticipant
+mtparty:PublicParticipant rdf:type owl:Class ;
+                          owl:equivalentClass [ rdf:type owl:Restriction ;
+                                                owl:onProperty mtparty:participant_in ;
+                                                owl:someValuesFrom mtparty:PublicTVParty
+                                              ] ;
+                          rdfs:subClassOf mtparty:Participant ,
+                                          [ rdf:type owl:Restriction ;
+                                            owl:onProperty mtparty:paysEntrance ;
+                                            owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                            owl:onClass gr:PriceSpecification
+                                          ] ;
+                          rdfs:comment "Agent that participates in Public TV Party." .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/PublicPhysicalTVParty
+mtparty:PublicPhysicalTVParty rdf:type owl:Class ;
+                              owl:equivalentClass [ owl:intersectionOf ( mtparty:PublicTVParty
+                                                                         [ rdf:type owl:Restriction ;
+                                                                           owl:onProperty mtparty:physicalPlace ;
+                                                                           owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                                           owl:onClass mtparty:PublicPlace
+                                                                         ]
+                                                                       ) ;
+                                                    rdf:type owl:Class
+                                                  ] ;
+                              rdfs:comment "TVParty that certainly takes place in a public place (e.g. cinema, in places where drive-ins are possible, etc.)." .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/PublicPlace
+mtparty:PublicPlace rdf:type owl:Class ;
+                    rdfs:subClassOf schema:Place ;
+                    rdfs:comment "Public physical place where TVParty take place, i.e. cinema, drive-in ect." .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/PublicTVParty
+mtparty:PublicTVParty rdf:type owl:Class ;
+                      rdfs:subClassOf mtparty:TVParty ,
+                                      [ rdf:type owl:Restriction ;
+                                        owl:onProperty mtparty:physicalPlace ;
+                                        owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                        owl:onClass mtparty:PublicPlace
+                                      ] ;
+                      rdfs:comment "TVParty which could take place in a public place (i.e. cinema, in places where drive-ins are possible, etc.)." .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/Reaction
+mtparty:Reaction rdf:type owl:Class ;
+                 owl:equivalentClass [ rdf:type owl:Restriction ;
+                                       owl:onProperty mtparty:reaction_in ;
+                                       owl:someValuesFrom mtparty:TVParty
+                                     ] ;
+                 rdfs:subClassOf event:Product ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty mtparty:isReactionOf ;
+                                   owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                   owl:onClass mtparty:Participant
+                                 ] ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty mtparty:rating ;
+                                   owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                   owl:onDataRange mtparty:ratingInteger
+                                 ] ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty mtparty:comment ;
+                                   owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                   owl:onDataRange xsd:string
+                                 ] ;
+                 rdfs:comment "Review that a participant can \"write\" about a TV Party." .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/ScreenProjector
+mtparty:ScreenProjector rdf:type owl:Class ;
+                        rdfs:subClassOf gr:SomeItems ;
+                        rdfs:comment "White screen in which to project movies." ;
+                        rdfs:seeAlso "https://en.wikipedia.org/wiki/Projection_screen" .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/Seller
+mtparty:Seller rdf:type owl:Class ;
+               owl:equivalentClass [ rdf:type owl:Restriction ;
+                                     owl:onProperty gr:offers ;
+                                     owl:someValuesFrom gr:Offering
+                                   ] ;
+               rdfs:subClassOf foaf:Agent ;
+               rdfs:comment "Agent that sells something." .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/SellerTicketOffering
+mtparty:SellerTicketOffering rdf:type owl:Class ;
+                             owl:equivalentClass [ rdf:type owl:Restriction ;
+                                                   owl:onProperty mtparty:includesTicketModel ;
+                                                   owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                   owl:onClass mtparty:TicketModel
+                                                 ] ;
+                             rdfs:subClassOf mtparty:TicketOffering ;
+                             rdfs:comment "Offer related to Public TV Party that a ticket seller can sell." .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/SellingOffering
+mtparty:SellingOffering rdf:type owl:Class ;
+                        owl:equivalentClass [ rdf:type owl:Restriction ;
+                                              owl:onProperty gr:hasBusinessFunction ;
+                                              owl:hasValue gr:Sell
+                                            ] ;
+                        rdfs:subClassOf gr:Offering ,
+                                        [ rdf:type owl:Restriction ;
+                                          owl:onProperty gr:hasPriceSpecification ;
+                                          owl:someValuesFrom gr:PriceSpecification
+                                        ] ;
+                        rdfs:comment "The superclass of all sellings offerings." .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/Show
+mtparty:Show rdf:type owl:Class ;
+             owl:equivalentClass [ rdf:type owl:Class ;
+                                   owl:unionOf ( schema:Episode
+                                                 schema:Movie
+                                               )
+                                 ] ;
+             rdfs:subClassOf [ rdf:type owl:Restriction ;
+                               owl:onProperty mtparty:runtimeMinutes ;
+                               owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                               owl:onDataRange xsd:positiveInteger
+                             ] ;
+             owl:disjointWith mtparty:TVPartyShowSequenceItem ;
+             rdfs:comment "Movie or Episode (of Series TV) that are screened at a TVParty." .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/SmartPhone
+mtparty:SmartPhone rdf:type owl:Class ;
+                   rdfs:subClassOf mtparty:Device ;
+                   owl:disjointWith mtparty:SmartTV ,
+                                    mtparty:Tablet .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/SmartTV
+mtparty:SmartTV rdf:type owl:Class ;
+                rdfs:subClassOf mtparty:Device ;
+                owl:disjointWith mtparty:Tablet .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/TVParty
+mtparty:TVParty rdf:type owl:Class ;
+                rdfs:subClassOf [ rdf:type owl:Restriction ;
+                                  owl:onProperty mtparty:organizer ;
+                                  owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                  owl:onClass mtparty:Organizer
+                                ] ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty mtparty:hasStatus ;
+                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                  owl:onClass mtparty:TVPartyStatus
+                                ] ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty mtparty:hasBudget ;
+                                  owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                  owl:onClass gr:PriceSpecification
+                                ] ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty mtparty:physicalPlace ;
+                                  owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                  owl:onClass schema:Place
+                                ] ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty mtparty:startsTVPartyAt ;
+                                  owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                  owl:onClass time:TemporalEntity
+                                ] ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty mtparty:tvPartyShowSequence ;
+                                  owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                  owl:onClass mtparty:TVPartyShowSequence
+                                ] ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty mtparty:virtualPlace ;
+                                  owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                  owl:onClass schema:VirtualLocation
+                                ] ;
+                rdfs:comment """The event of the ``film or TV series marathon\"
+that has happened or has yet to happen, in a physical location or online at a certain date and time.""" .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/TVPartyShowSequence
+mtparty:TVPartyShowSequence rdf:type owl:Class ;
+                            rdfs:subClassOf event:Factor ,
+                                            rdf:Seq ,
+                                            [ rdf:type owl:Class ;
+                                              owl:unionOf ( [ rdf:type owl:Restriction ;
+                                                              owl:onProperty rdfs:member ;
+                                                              owl:allValuesFrom mtparty:Show
+                                                            ]
+                                                            [ rdf:type owl:Restriction ;
+                                                              owl:onProperty rdfs:member ;
+                                                              owl:allValuesFrom mtparty:TVPartyShowSequenceItem
+                                                            ]
+                                                          )
+                                            ] ;
+                            rdfs:comment "Sequence of movies or episodes (of serie tv) that are screened at the TVParty." .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/TVPartyShowSequenceItem
+mtparty:TVPartyShowSequenceItem rdf:type owl:Class ;
+                                rdfs:subClassOf [ rdf:type owl:Restriction ;
+                                                  owl:onProperty mtparty:hasShow ;
+                                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                  owl:onClass mtparty:Show
+                                                ] ,
+                                                [ rdf:type owl:Restriction ;
+                                                  owl:onProperty mtparty:startsShowAt ;
+                                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                  owl:onClass time:TemporalEntity
+                                                ] ,
+                                                [ rdf:type owl:Restriction ;
+                                                  owl:onProperty mtparty:endsShowAt ;
+                                                  owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                  owl:onClass time:TemporalEntity
+                                                ] ;
+                                rdfs:comment "Class representing a show that should start at a certain time and possibly finish at a certain time." .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/TVPartyStatus
+mtparty:TVPartyStatus rdf:type owl:Class ;
+                      rdfs:comment "Status of the TV Party." .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/Tablet
+mtparty:Tablet rdf:type owl:Class ;
+               rdfs:subClassOf mtparty:Device .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/TakeawayFood
+mtparty:TakeawayFood rdf:type owl:Class ;
+                     rdfs:subClassOf fo:Food ;
+                     rdfs:comment "Food sold by a foodseller." .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/Ticket
+mtparty:Ticket rdf:type owl:Class ;
+               owl:equivalentClass [ rdf:type owl:Class ;
+                                     owl:unionOf ( mtparty:PhysicalTicket
+                                                   mtparty:VirtualTicket
+                                                 )
+                                   ] ;
+               rdfs:subClassOf gr:Individual ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty mtparty:hasTicketModel ;
+                                 owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                 owl:onClass mtparty:TicketModel
+                               ] ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty gr:serialNumber ;
+                                 owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                 owl:onDataRange xsd:string
+                               ] ;
+               rdfs:comment "Ticket with which a person can participate in the Public TV Party." .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/TicketCart
+mtparty:TicketCart rdf:type owl:Class ;
+                   rdfs:subClassOf rdf:Bag ,
+                                   [ rdf:type owl:Restriction ;
+                                     owl:onProperty rdfs:member ;
+                                     owl:allValuesFrom mtparty:BuyerTicketOffering
+                                   ] ,
+                                   [ rdf:type owl:Restriction ;
+                                     owl:onProperty mtparty:buysTicketAt ;
+                                     owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                     owl:onClass time:TemporalEntity
+                                   ] ;
+                   owl:disjointWith mtparty:TicketOffering ;
+                   rdfs:comment "Cart of tickets purchased by a person." .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/TicketModel
+mtparty:TicketModel rdf:type owl:Class ;
+                    rdfs:subClassOf gr:ProductOrServiceModel ,
+                                    [ rdf:type owl:Restriction ;
+                                      owl:onProperty mtparty:relatedToPublicTVParty ;
+                                      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                      owl:onClass mtparty:PublicTVParty
+                                    ] ;
+                    rdfs:comment "Class representing an intangible entity that specifies some characteristic common to all tickets (ticket as a product)." .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/TicketOffering
+mtparty:TicketOffering rdf:type owl:Class ;
+                       owl:equivalentClass [ rdf:type owl:Class ;
+                                             owl:unionOf ( mtparty:BuyerTicketOffering
+                                                           mtparty:SellerTicketOffering
+                                                         )
+                                           ] ;
+                       rdfs:subClassOf mtparty:SellingOffering ;
+                       rdfs:comment "The superclass of all ticket offerings." .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/TicketSeller
+mtparty:TicketSeller rdf:type owl:Class ;
+                     owl:equivalentClass [ rdf:type owl:Restriction ;
+                                           owl:onProperty mtparty:ticketseller_in ;
+                                           owl:someValuesFrom mtparty:PublicTVParty
+                                         ] ;
+                     rdfs:subClassOf mtparty:Seller ;
+                     rdfs:comment "Agent that sells ticket of Public TV Party." .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/VirtualTicket
+mtparty:VirtualTicket rdf:type owl:Class ;
+                      owl:equivalentClass [ owl:intersectionOf ( mtparty:Ticket
+                                                                 [ rdf:type owl:Restriction ;
+                                                                   owl:onProperty mtparty:password ;
+                                                                   owl:someValuesFrom xsd:string
+                                                                 ]
+                                                                 [ rdf:type owl:Restriction ;
+                                                                   owl:onProperty mtparty:username ;
+                                                                   owl:someValuesFrom xsd:string
+                                                                 ]
+                                                               ) ;
+                                            rdf:type owl:Class
+                                          ] ;
+                      rdfs:comment "Virtual ticket where the access credentials are indicated." .
+
+
+###  http://www.w3.org/1999/02/22-rdf-syntax-ns#Bag
+rdf:Bag rdf:type owl:Class ;
+        rdfs:isDefinedBy "http://www.w3.org/1999/02/22-rdf-syntax-ns" ;
+        rdfs:seeAlso "https://www.w3.org/TR/rdf-schema/#ch_bag" .
+
+
+###  http://www.w3.org/1999/02/22-rdf-syntax-ns#Seq
+rdf:Seq rdf:type owl:Class ;
+        rdfs:isDefinedBy "http://www.w3.org/1999/02/22-rdf-syntax-ns" ;
+        rdfs:seeAlso "https://www.w3.org/TR/rdf-schema/#ch_seq" .
+
+
+###  http://xmlns.com/foaf/0.1/Group
+foaf:Group rdf:type owl:Class ;
+           rdfs:subClassOf foaf:Agent .
+
+
+###  http://xmlns.com/foaf/0.1/Organization
+foaf:Organization rdf:type owl:Class ;
+                  rdfs:subClassOf foaf:Agent .
+
+
+###  http://xmlns.com/foaf/0.1/Person
+foaf:Person rdf:type owl:Class ;
+            rdfs:subClassOf foaf:Agent .
+
+
+#################################################################
+#    Individuals
+#################################################################
+
+###  http://purl.org/goodrelations/v1#Buy
+gr:Buy owl:differentFrom mtparty:SellNotSeparated .
+
+
+###  http://purl.org/goodrelations/v1#ConstructionInstallation
+gr:ConstructionInstallation owl:differentFrom mtparty:SellNotSeparated .
+
+
+###  http://purl.org/goodrelations/v1#Dispose
+gr:Dispose owl:differentFrom mtparty:SellNotSeparated .
+
+
+###  http://purl.org/goodrelations/v1#LeaseOut
+gr:LeaseOut owl:differentFrom mtparty:SellNotSeparated .
+
+
+###  http://purl.org/goodrelations/v1#Maintain
+gr:Maintain owl:differentFrom mtparty:SellNotSeparated .
+
+
+###  http://purl.org/goodrelations/v1#ProvideService
+gr:ProvideService owl:differentFrom mtparty:SellNotSeparated .
+
+
+###  http://purl.org/goodrelations/v1#Repair
+gr:Repair owl:differentFrom mtparty:SellNotSeparated .
+
+
+###  http://purl.org/goodrelations/v1#Sell
+gr:Sell owl:differentFrom mtparty:SellNotSeparated .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/CancelledStatus
+mtparty:CancelledStatus rdf:type owl:NamedIndividual ,
+                                 mtparty:TVPartyStatus ;
+                        owl:differentFrom mtparty:EndedStatus ,
+                                          mtparty:InProgressStatus ,
+                                          mtparty:PendingStatus ;
+                        rdfs:comment "Status indicating TV Party did not go as planned." .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/DrinkCategory
+mtparty:DrinkCategory rdf:type owl:NamedIndividual ,
+                               mtparty:FoodCategory ;
+                      owl:differentFrom mtparty:SaltedCategory ,
+                                        mtparty:SweetCategory ;
+                      rdfs:comment "Food category instance representing drinks." .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/EndedStatus
+mtparty:EndedStatus rdf:type owl:NamedIndividual ,
+                             mtparty:TVPartyStatus ;
+                    owl:differentFrom mtparty:InProgressStatus ,
+                                      mtparty:PendingStatus ;
+                    rdfs:comment "Status indicating TV Party has taken place and is over." .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/InProgressStatus
+mtparty:InProgressStatus rdf:type owl:NamedIndividual ,
+                                  mtparty:TVPartyStatus ;
+                         owl:differentFrom mtparty:PendingStatus ;
+                         rdfs:comment "Status indicating TV Party is taking place right now." .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/PendingStatus
+mtparty:PendingStatus rdf:type owl:NamedIndividual ,
+                               mtparty:TVPartyStatus ;
+                      rdfs:comment "Status indicating TV Party has yet to happen. Default instance when the event is created." .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/SaltedCategory
+mtparty:SaltedCategory rdf:type owl:NamedIndividual ,
+                                mtparty:FoodCategory ;
+                       owl:differentFrom mtparty:SweetCategory ;
+                       rdfs:comment "Food category instance representing salted food." .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/SellNotSeparated
+mtparty:SellNotSeparated rdf:type owl:NamedIndividual ,
+                                  gr:BusinessFunction ;
+                         rdfs:comment "Business function instance representing the foods that cannot be sold separately." .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/SweetCategory
+mtparty:SweetCategory rdf:type owl:NamedIndividual ,
+                               mtparty:FoodCategory ;
+                      rdfs:comment "Food category instance representing sweet food." .
+
+
+###  Generated by the OWL API (version 4.5.25.2023-02-15T19:15:49Z) https://github.com/owlcs/owlapi
