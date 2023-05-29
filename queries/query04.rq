@@ -1,0 +1,24 @@
+PREFIX mtparty: <http://www.semanticweb.org/marica/ontologies/marathontvparty/>
+PREFIX sdb: <http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/>
+PREFIX schema: <http://schema.org/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?place ?placeLabel (COUNT(?place) AS ?frequencyTVParty)
+WHERE {
+    {
+        ?TVParty mtparty:physicalPlace ?place.
+        OPTIONAL {
+            ?place rdfs:label ?pl.
+            BIND (STR(?pl) AS ?placeLabel)
+        }
+    }
+    UNION
+    {
+        ?TVParty mtparty:virtualPlace [ schema:url ?pl ].
+        BIND (STR("^(http[s]?://[^:/]+)(.*)$") AS ?regex).
+        BIND (REPLACE(STR(?pl), ?regex , "$1") AS ?place).
+    }
+
+}
+GROUP BY ?place ?placeLabel
+ORDER BY DESC (?frequencyTVParty)

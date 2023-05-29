@@ -1,0 +1,34 @@
+PREFIX mtparty: <http://www.semanticweb.org/marica/ontologies/marathontvparty/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX schema: <http://schema.org/>
+
+
+SELECT ?genre (COUNT(?genre) AS ?frequenctGenreShow)
+WHERE {
+    {
+        ?show a schema:Movie.
+        ?TVParty mtparty:tvPartyShowSequence [
+                                                 rdfs:member|(rdfs:member/mtparty:hasShow) ?show
+                                             ].
+        ?show schema:genre ?genre.
+    }
+    UNION {
+        ?show a schema:Episode .
+        ?TVParty mtparty:tvPartyShowSequence [
+                                                 rdfs:member|(rdfs:member/mtparty:hasShow) ?show
+                                             ].
+        { ?show schema:genre ?genre. }
+        UNION
+        {
+            ?show schema:partOfSeason ?season .
+            { ?season schema:genre ?genre. }
+            UNION
+            {
+                ?season schema:partOfSeries ?serie .
+                ?serie schema:genre ?genre .
+            }
+        }
+    }
+}
+GROUP BY ?genre
+ORDER BY DESC(?frequenctGenreShow) ASC(?genre)

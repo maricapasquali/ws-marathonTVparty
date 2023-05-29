@@ -1,0 +1,60 @@
+PREFIX mtparty: <http://www.semanticweb.org/marica/ontologies/marathontvparty/>
+PREFIX sdb: <http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX gr: <http://purl.org/goodrelations/v1#>
+
+SELECT ?TVParty
+    (SUM(COALESCE(?entrancepcv,0)) AS ?proceedsEntrance)
+    (SUM(COALESCE(?btopcv,0)) AS ?proceedsTicket)
+    (SUM(COALESCE(?bfopcv,0)) AS ?proceedsFood)
+    (SUM(COALESCE(?partial_proceeds,0)) AS ?proceedsTotal)
+WHERE {
+    ?TVParty a mtparty:PublicTVParty.
+    {
+        ?TVParty mtparty:seller [
+                                    gr:offers [
+                                                  gr:hasPriceSpecification [
+                                                                               gr:hasCurrencyValue ?entrancepcv
+                                                                           ]
+                                              ]
+                                ].
+        ?agent mtparty:participant_in ?TVParty;
+            mtparty:paysEntrance [gr:hasCurrencyValue ?entrancepcv].
+
+        BIND ((?entrancepcv)  AS ?partial_proceeds).
+    }
+    UNION {
+        ?agent mtparty:buysTicket|(mtparty:buysTickets/rdfs:member) ?bto.
+        ?bto mtparty:includesTicket ?t ;
+            mtparty:correspondsToSellerTicketOffering ?sto ;
+            gr:hasPriceSpecification [gr:hasCurrencyValue ?btopcv].
+        ?sto mtparty:includesTicketModel ?tm .
+        ?ts mtparty:sellsTicket ?sto ;
+            mtparty:ticketseller_in ?TVParty .
+        ?tm mtparty:relatedToPublicTVParty ?TVParty .
+        ?t mtparty:hasTicketModel ?tm .
+
+        BIND ((?btopcv)  AS ?partial_proceeds).
+    }
+    UNION {
+        ?agent mtparty:participant_in ?TVParty .
+        ?TVParty mtparty:foodMenu [rdfs:member ?bfo];
+            mtparty:foodseller [mtparty:sellsFood ?bfo].
+        {
+            ?agent mtparty:buysFood ?bfo .
+            ?bfo gr:hasPriceSpecification [gr:hasCurrencyValue ?bfopcv].
+        }
+        UNION
+        {
+
+            ?agent mtparty:buysFood ?bfoI .
+            ?bfoI mtparty:hasFoodQuantity [gr:hasValue ?bfoIQV];
+                mtparty:hasFoodOffering ?bfo.
+            ?bfo gr:hasPriceSpecification [gr:hasCurrencyValue ?partial_bfopcv].
+            BIND ((?bfoIQV * ?partial_bfopcv) AS ?bfopcv).
+        }
+
+        BIND ((?bfopcv) AS ?partial_proceeds).
+    }
+}
+GROUP BY ?TVParty

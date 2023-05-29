@@ -1,0 +1,17 @@
+PREFIX mtparty: <http://www.semanticweb.org/marica/ontologies/marathontvparty/>
+PREFIX sdb: <http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/>
+
+SELECT ?TVParty ?ticket ?ticketseller (COALESCE(?val, "NO VALID") AS ?validity)
+WHERE {
+    ?ticketseller mtparty:sellsTicket ?sto.
+    ?tm mtparty:relatedToPublicTVParty ?TVParty.
+    ?sto mtparty:includesTicketModel ?tm.
+    ?bto mtparty:correspondsToSellerTicketOffering ?sto;
+        mtparty:includesTicket ?ticket.
+    ?ticket mtparty:hasTicketModel ?tm.
+    OPTIONAL {
+        ?ticketseller mtparty:ticketseller_in ?TVParty.
+        BIND(("VALID") AS ?val).
+    }
+    FILTER (?TVParty = sdb:tvparty01)
+}

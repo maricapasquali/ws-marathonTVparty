@@ -2,3 +2,4 @@ catalog-*.xml
 ignore
 .idea
 docs/images
+!datastore/catalog-v001.xml

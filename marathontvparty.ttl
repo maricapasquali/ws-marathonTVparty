@@ -9,8 +9,10 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix swrl: <http://www.w3.org/2003/11/swrl#> .
 @prefix time: <http://www.w3.org/2006/time#> .
 @prefix event: <http://purl.org/NET/c4dm/event.owl#> .
+@prefix swrla: <http://swrl.stanford.edu/ontologies/3.3/swrla.owl#> .
 @prefix schema: <http://schema.org/> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix mtparty: <http://www.semanticweb.org/marica/ontologies/marathontvparty/> .
@@ -23,7 +25,15 @@
                                                                 dc:creator "Marica Pasquali" ;
                                                                 dc:description "This ontology was developed with the intention of modeling \"knowledge\" for organizing events involving movie or TV series marathons." ;
                                                                 dc:title "Marathon TV Party" ;
-                                                                dcterms:modified "2023-05-21" .
+                                                                dcterms:modified "2023-05-26" .
+
+#################################################################
+#    Annotation properties
+#################################################################
+
+###  http://swrl.stanford.edu/ontologies/3.3/swrla.owl#isRuleEnabled
+swrla:isRuleEnabled rdf:type owl:AnnotationProperty .
+
 
 #################################################################
 #    Datatypes
@@ -156,6 +166,13 @@ mtparty:capacity rdf:type owl:ObjectProperty ,
                                            )
                              ] ;
                  rdfs:range gr:QuantitativeValue .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/correspondsToSellerTicketOffering
+mtparty:correspondsToSellerTicketOffering rdf:type owl:ObjectProperty ,
+                                                   owl:FunctionalProperty ;
+                                          rdfs:domain mtparty:BuyerTicketOffering ;
+                                          rdfs:range mtparty:SellerTicketOffering .
 
 
 ###  http://www.semanticweb.org/marica/ontologies/marathontvparty/endsShowAt
@@ -297,8 +314,6 @@ mtparty:includesTicket rdf:type owl:ObjectProperty ;
 mtparty:includesTicketModel rdf:type owl:ObjectProperty ;
                             rdfs:subPropertyOf gr:includes ;
                             owl:inverseOf mtparty:isTicketModelIncludedIn ;
-                            rdf:type owl:FunctionalProperty ,
-                                     owl:InverseFunctionalProperty ;
                             rdfs:domain mtparty:SellerTicketOffering ;
                             rdfs:range mtparty:TicketModel .
 
@@ -767,7 +782,12 @@ mtparty:BuyerTicketOffering rdf:type owl:Class ;
                                                   owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                                   owl:onClass mtparty:Ticket
                                                 ] ;
-                            rdfs:subClassOf mtparty:TicketOffering ;
+                            rdfs:subClassOf mtparty:TicketOffering ,
+                                            [ rdf:type owl:Restriction ;
+                                              owl:onProperty mtparty:correspondsToSellerTicketOffering ;
+                                              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                              owl:onClass mtparty:SellerTicketOffering
+                                            ] ;
                             owl:disjointWith mtparty:SellerTicketOffering ;
                             rdfs:comment "Offer relating to a ticket that one person can buy." .
 
@@ -1511,5 +1531,309 @@ mtparty:SweetCategory rdf:type owl:NamedIndividual ,
                                mtparty:FoodCategory ;
                       rdfs:comment "Food category instance representing sweet food." .
 
+
+#################################################################
+#    Rules
+#################################################################
+
+mtparty:x rdf:type swrl:Variable .
+
+mtparty:y rdf:type swrl:Variable .
+
+mtparty:e rdf:type swrl:Variable .
+
+mtparty:fm rdf:type swrl:Variable .
+
+mtparty:f rdf:type swrl:Variable .
+
+mtparty:a rdf:type swrl:Variable .
+
+mtparty:o rdf:type swrl:Variable .
+
+mtparty:s rdf:type swrl:Variable .
+
+mtparty:i rdf:type swrl:Variable .
+
+mtparty:t rdf:type swrl:Variable .
+
+[ swrla:isRuleEnabled "true"^^xsd:boolean ;
+   rdfs:comment "This rule allows you to understand if an ContinueEvent is a PrivateTVParty." ;
+   rdfs:label "Rule 1" ;
+   rdf:type swrl:Imp ;
+   swrl:body [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:ClassAtom ;
+                           swrl:classPredicate mtparty:PrivateTVParty ;
+                           swrl:argument1 mtparty:x
+                         ] ;
+               rdf:rest [ rdf:type swrl:AtomList ;
+                          rdf:first [ rdf:type swrl:ClassAtom ;
+                                      swrl:classPredicate mtparty:ContinueEvent ;
+                                      swrl:argument1 mtparty:y
+                                    ] ;
+                          rdf:rest [ rdf:type swrl:AtomList ;
+                                     rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                                                 swrl:propertyPredicate mtparty:isContinuationOf ;
+                                                 swrl:argument1 mtparty:y ;
+                                                 swrl:argument2 mtparty:x
+                                               ] ;
+                                     rdf:rest rdf:nil
+                                   ]
+                        ]
+             ] ;
+   swrl:head [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:ClassAtom ;
+                           swrl:classPredicate mtparty:PrivateTVParty ;
+                           swrl:argument1 mtparty:y
+                         ] ;
+               rdf:rest rdf:nil
+             ]
+ ] .
+
+[ swrla:isRuleEnabled "true"^^xsd:boolean ;
+   rdfs:comment "This rule allows you to understand if an ContinueEvent is a PublicTVParty." ;
+   rdfs:label "Rule 2" ;
+   rdf:type swrl:Imp ;
+   swrl:body [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:ClassAtom ;
+                           swrl:classPredicate mtparty:PublicTVParty ;
+                           swrl:argument1 mtparty:x
+                         ] ;
+               rdf:rest [ rdf:type swrl:AtomList ;
+                          rdf:first [ rdf:type swrl:ClassAtom ;
+                                      swrl:classPredicate mtparty:ContinueEvent ;
+                                      swrl:argument1 mtparty:y
+                                    ] ;
+                          rdf:rest [ rdf:type swrl:AtomList ;
+                                     rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                                                 swrl:propertyPredicate mtparty:isContinuationOf ;
+                                                 swrl:argument1 mtparty:y ;
+                                                 swrl:argument2 mtparty:x
+                                               ] ;
+                                     rdf:rest rdf:nil
+                                   ]
+                        ]
+             ] ;
+   swrl:head [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:ClassAtom ;
+                           swrl:classPredicate mtparty:PublicTVParty ;
+                           swrl:argument1 mtparty:y
+                         ] ;
+               rdf:rest rdf:nil
+             ]
+ ] .
+
+[ swrla:isRuleEnabled "true"^^xsd:boolean ;
+   rdfs:comment "This rule allows to understand if a fFoodSeller has participated in a PublicPhysicalTVParty." ;
+   rdfs:label "Rule 3" ;
+   rdf:type swrl:Imp ;
+   swrl:body [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:ClassAtom ;
+                           swrl:classPredicate mtparty:PublicPhysicalTVParty ;
+                           swrl:argument1 mtparty:e
+                         ] ;
+               rdf:rest [ rdf:type swrl:AtomList ;
+                          rdf:first [ rdf:type swrl:ClassAtom ;
+                                      swrl:classPredicate mtparty:FoodMenu ;
+                                      swrl:argument1 mtparty:fm
+                                    ] ;
+                          rdf:rest [ rdf:type swrl:AtomList ;
+                                     rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                                                 swrl:propertyPredicate mtparty:foodMenu ;
+                                                 swrl:argument1 mtparty:e ;
+                                                 swrl:argument2 mtparty:fm
+                                               ] ;
+                                     rdf:rest [ rdf:type swrl:AtomList ;
+                                                rdf:first [ rdf:type swrl:ClassAtom ;
+                                                            swrl:classPredicate mtparty:FoodOffering ;
+                                                            swrl:argument1 mtparty:f
+                                                          ] ;
+                                                rdf:rest [ rdf:type swrl:AtomList ;
+                                                           rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                                                                       swrl:propertyPredicate rdfs:member ;
+                                                                       swrl:argument1 mtparty:fm ;
+                                                                       swrl:argument2 mtparty:f
+                                                                     ] ;
+                                                           rdf:rest [ rdf:type swrl:AtomList ;
+                                                                      rdf:first [ rdf:type swrl:ClassAtom ;
+                                                                                  swrl:classPredicate foaf:Agent ;
+                                                                                  swrl:argument1 mtparty:a
+                                                                                ] ;
+                                                                      rdf:rest [ rdf:type swrl:AtomList ;
+                                                                                 rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                                                                                             swrl:propertyPredicate mtparty:sellsFood ;
+                                                                                             swrl:argument1 mtparty:f ;
+                                                                                             swrl:argument2 mtparty:a
+                                                                                           ] ;
+                                                                                 rdf:rest rdf:nil
+                                                                               ]
+                                                                    ]
+                                                         ]
+                                              ]
+                                   ]
+                        ]
+             ] ;
+   swrl:head [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                           swrl:propertyPredicate mtparty:foodseller ;
+                           swrl:argument1 mtparty:e ;
+                           swrl:argument2 mtparty:a
+                         ] ;
+               rdf:rest rdf:nil
+             ]
+ ] .
+
+[ swrla:isRuleEnabled "true"^^xsd:boolean ;
+   rdfs:comment "This rule makes it possible to establish that the organizer of a PrivateTVParty is a participant in the TVParty." ;
+   rdfs:label "Rule 6" ;
+   rdf:type swrl:Imp ;
+   swrl:body [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:ClassAtom ;
+                           swrl:classPredicate mtparty:PrivateTVParty ;
+                           swrl:argument1 mtparty:e
+                         ] ;
+               rdf:rest [ rdf:type swrl:AtomList ;
+                          rdf:first [ rdf:type swrl:ClassAtom ;
+                                      swrl:classPredicate mtparty:Organizer ;
+                                      swrl:argument1 mtparty:o
+                                    ] ;
+                          rdf:rest [ rdf:type swrl:AtomList ;
+                                     rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                                                 swrl:propertyPredicate mtparty:organizer ;
+                                                 swrl:argument1 mtparty:e ;
+                                                 swrl:argument2 mtparty:o
+                                               ] ;
+                                     rdf:rest rdf:nil
+                                   ]
+                        ]
+             ] ;
+   swrl:head [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                           swrl:propertyPredicate mtparty:participant ;
+                           swrl:argument1 mtparty:e ;
+                           swrl:argument2 mtparty:o
+                         ] ;
+               rdf:rest rdf:nil
+             ]
+ ] .
+
+[ swrla:isRuleEnabled "true"^^xsd:boolean ;
+   rdfs:comment "This rule allows you to assign the date and start time of the first show which equals the start of the TV Party." ;
+   rdfs:label "Rule 5" ;
+   rdf:type swrl:Imp ;
+   swrl:body [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:ClassAtom ;
+                           swrl:classPredicate mtparty:TVParty ;
+                           swrl:argument1 mtparty:e
+                         ] ;
+               rdf:rest [ rdf:type swrl:AtomList ;
+                          rdf:first [ rdf:type swrl:ClassAtom ;
+                                      swrl:classPredicate mtparty:TVPartyShowSequence ;
+                                      swrl:argument1 mtparty:s
+                                    ] ;
+                          rdf:rest [ rdf:type swrl:AtomList ;
+                                     rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                                                 swrl:propertyPredicate mtparty:tvPartyShowSequence ;
+                                                 swrl:argument1 mtparty:e ;
+                                                 swrl:argument2 mtparty:s
+                                               ] ;
+                                     rdf:rest [ rdf:type swrl:AtomList ;
+                                                rdf:first [ rdf:type swrl:ClassAtom ;
+                                                            swrl:classPredicate mtparty:TVPartyShowSequenceItem ;
+                                                            swrl:argument1 mtparty:i
+                                                          ] ;
+                                                rdf:rest [ rdf:type swrl:AtomList ;
+                                                           rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                                                                       swrl:propertyPredicate rdf:_1 ;
+                                                                       swrl:argument1 mtparty:s ;
+                                                                       swrl:argument2 mtparty:i
+                                                                     ] ;
+                                                           rdf:rest [ rdf:type swrl:AtomList ;
+                                                                      rdf:first [ rdf:type swrl:ClassAtom ;
+                                                                                  swrl:classPredicate time:TemporalEntity ;
+                                                                                  swrl:argument1 mtparty:t
+                                                                                ] ;
+                                                                      rdf:rest [ rdf:type swrl:AtomList ;
+                                                                                 rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                                                                                             swrl:propertyPredicate mtparty:startsShowAt ;
+                                                                                             swrl:argument1 mtparty:i ;
+                                                                                             swrl:argument2 mtparty:t
+                                                                                           ] ;
+                                                                                 rdf:rest rdf:nil
+                                                                               ]
+                                                                    ]
+                                                         ]
+                                              ]
+                                   ]
+                        ]
+             ] ;
+   swrl:head [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                           swrl:propertyPredicate mtparty:startsTVPartyAt ;
+                           swrl:argument1 mtparty:e ;
+                           swrl:argument2 mtparty:t
+                         ] ;
+               rdf:rest rdf:nil
+             ]
+ ] .
+
+[ swrla:isRuleEnabled "true"^^xsd:boolean ;
+   rdfs:comment "This rule allows you to assign the date and start time of the first show which equals the start of the TV Party." ;
+   rdfs:label "Rule 4" ;
+   rdf:type swrl:Imp ;
+   swrl:body [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:ClassAtom ;
+                           swrl:classPredicate mtparty:TVParty ;
+                           swrl:argument1 mtparty:e
+                         ] ;
+               rdf:rest [ rdf:type swrl:AtomList ;
+                          rdf:first [ rdf:type swrl:ClassAtom ;
+                                      swrl:classPredicate mtparty:TVPartyShowSequence ;
+                                      swrl:argument1 mtparty:s
+                                    ] ;
+                          rdf:rest [ rdf:type swrl:AtomList ;
+                                     rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                                                 swrl:propertyPredicate mtparty:tvPartyShowSequence ;
+                                                 swrl:argument1 mtparty:e ;
+                                                 swrl:argument2 mtparty:s
+                                               ] ;
+                                     rdf:rest [ rdf:type swrl:AtomList ;
+                                                rdf:first [ rdf:type swrl:ClassAtom ;
+                                                            swrl:classPredicate mtparty:TVPartyShowSequenceItem ;
+                                                            swrl:argument1 mtparty:i
+                                                          ] ;
+                                                rdf:rest [ rdf:type swrl:AtomList ;
+                                                           rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                                                                       swrl:propertyPredicate rdf:_1 ;
+                                                                       swrl:argument1 mtparty:s ;
+                                                                       swrl:argument2 mtparty:i
+                                                                     ] ;
+                                                           rdf:rest [ rdf:type swrl:AtomList ;
+                                                                      rdf:first [ rdf:type swrl:ClassAtom ;
+                                                                                  swrl:classPredicate time:TemporalEntity ;
+                                                                                  swrl:argument1 mtparty:t
+                                                                                ] ;
+                                                                      rdf:rest [ rdf:type swrl:AtomList ;
+                                                                                 rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                                                                                             swrl:propertyPredicate mtparty:startsTVPartyAt ;
+                                                                                             swrl:argument1 mtparty:e ;
+                                                                                             swrl:argument2 mtparty:t
+                                                                                           ] ;
+                                                                                 rdf:rest rdf:nil
+                                                                               ]
+                                                                    ]
+                                                         ]
+                                              ]
+                                   ]
+                        ]
+             ] ;
+   swrl:head [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                           swrl:propertyPredicate mtparty:startsShowAt ;
+                           swrl:argument1 mtparty:i ;
+                           swrl:argument2 mtparty:t
+                         ] ;
+               rdf:rest rdf:nil
+             ]
+ ] .
 
 ###  Generated by the OWL API (version 4.5.25.2023-02-15T19:15:49Z) https://github.com/owlcs/owlapi

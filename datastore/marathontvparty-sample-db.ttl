@@ -1,0 +1,817 @@
+@prefix : <http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/> .
+@prefix gr: <http://purl.org/goodrelations/v1#> .
+@prefix wd: <http://www.wikidata.org/entity/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix pto: <http://www.productontology.org/id/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix sdb: <http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <http://schema.org/> .
+@prefix mtparty: <http://www.semanticweb.org/marica/ontologies/marathontvparty/> .
+@base <http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/> .
+
+<http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db> rdf:type owl:Ontology ;
+                                                                          owl:imports <http://www.semanticweb.org/marica/ontologies/marathontvparty/1.0.0> .
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  http://schema.org/addressCountry
+schema:addressCountry rdf:type owl:DatatypeProperty .
+
+
+###  http://schema.org/addressLocality
+schema:addressLocality rdf:type owl:DatatypeProperty .
+
+
+###  http://schema.org/addressRegion
+schema:addressRegion rdf:type owl:DatatypeProperty .
+
+
+###  http://schema.org/episodeNumber
+schema:episodeNumber rdf:type owl:DatatypeProperty .
+
+
+###  http://schema.org/postalCode
+schema:postalCode rdf:type owl:DatatypeProperty .
+
+
+###  http://schema.org/seasonNumber
+schema:seasonNumber rdf:type owl:DatatypeProperty .
+
+
+###  http://schema.org/streetAddress
+schema:streetAddress rdf:type owl:DatatypeProperty .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://www.productontology.org/id/Bottled_water
+pto:Bottled_water rdf:type owl:Class .
+
+
+###  http://www.productontology.org/id/Popcorn
+pto:Popcorn rdf:type owl:Class .
+
+
+#################################################################
+#    Individuals
+#################################################################
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/agent00
+sdb:agent00 rdf:type owl:NamedIndividual ;
+            mtparty:buysFood sdb:food01Offering ;
+            mtparty:buysFoods sdb:cartFoodAgent00 ;
+            mtparty:buysTickets sdb:cartTicketAgent00 .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/agent01
+sdb:agent01 rdf:type owl:NamedIndividual ;
+            mtparty:buysTicket sdb:bto3 .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/agent02
+sdb:agent02 rdf:type owl:NamedIndividual .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/agent03
+sdb:agent03 rdf:type owl:NamedIndividual .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/agent04
+sdb:agent04 rdf:type owl:NamedIndividual ;
+            mtparty:paysEntrance sdb:ticketPrice .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/agent05
+sdb:agent05 rdf:type owl:NamedIndividual .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/agent06
+sdb:agent06 rdf:type owl:NamedIndividual .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/agent07
+sdb:agent07 rdf:type owl:NamedIndividual .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/agent08
+sdb:agent08 rdf:type owl:NamedIndividual .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/agent09
+sdb:agent09 rdf:type owl:NamedIndividual ;
+            mtparty:paysEntrance sdb:ticketPrice .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/bto1
+sdb:bto1 rdf:type owl:NamedIndividual ,
+                  mtparty:BuyerTicketOffering ;
+         gr:hasPriceSpecification sdb:ticketReducedPrice ;
+         mtparty:correspondsToSellerTicketOffering sdb:sto02 ;
+         mtparty:includesTicket sdb:ticket01 .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/bto2
+sdb:bto2 rdf:type owl:NamedIndividual ,
+                  mtparty:BuyerTicketOffering ;
+         gr:hasPriceSpecification sdb:pcs01 ,
+                                  sdb:ticketPrice ;
+         mtparty:correspondsToSellerTicketOffering sdb:sto01 ;
+         mtparty:includesTicket sdb:ticket02 .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/bto3
+sdb:bto3 rdf:type owl:NamedIndividual ,
+                  mtparty:BuyerTicketOffering ;
+         gr:hasPriceSpecification sdb:ticketPriceUnofficial ;
+         mtparty:correspondsToSellerTicketOffering sdb:sto03 ;
+         mtparty:includesTicket sdb:ticket03 .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/bto4
+sdb:bto4 rdf:type owl:NamedIndividual ;
+         gr:hasPriceSpecification sdb:ticketPrice ;
+         mtparty:correspondsToSellerTicketOffering sdb:sto04 ;
+         mtparty:includesTicket sdb:ticket04 .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/cartFoodAgent00
+sdb:cartFoodAgent00 rdf:type owl:NamedIndividual ;
+                    rdfs:member sdb:cartFoodItem01Agent00 .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/cartFoodItem01Agent00
+sdb:cartFoodItem01Agent00 rdf:type owl:NamedIndividual ;
+                          mtparty:hasFoodOffering sdb:food02Offering ;
+                          mtparty:hasFoodQuantity sdb:cartFoodItem01QuantityAgent00 .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/cartFoodItem01QuantityAgent00
+sdb:cartFoodItem01QuantityAgent00 rdf:type owl:NamedIndividual ,
+                                           gr:QuantitativeValue ;
+                                  gr:hasUnitOfMeasurement "C62" ;
+                                  gr:hasValue 2 .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/cartTicketAgent00
+sdb:cartTicketAgent00 rdf:type owl:NamedIndividual ,
+                               mtparty:TicketCart ;
+                      rdfs:member sdb:bto1 ,
+                                  sdb:bto2 .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/entranceOffering01
+sdb:entranceOffering01 rdf:type owl:NamedIndividual ;
+                       gr:hasPriceSpecification sdb:ticketPrice .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/food01
+sdb:food01 rdf:type owl:NamedIndividual ,
+                    pto:Bottled_water ,
+                    mtparty:TakeawayFood ;
+           rdfs:label "Bottled Water (food)" .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/food01Offering
+sdb:food01Offering rdf:type owl:NamedIndividual ,
+                            mtparty:FoodOffering ;
+                   gr:hasEligibleQuantity sdb:food01OfferingQuantity ;
+                   gr:hasPriceSpecification sdb:food01OfferingPrice ;
+                   mtparty:includesFood sdb:food01 ;
+                   rdfs:label "Bottle of Water by 1/2 litre Offering" .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/food01OfferingPrice
+sdb:food01OfferingPrice rdf:type owl:NamedIndividual ,
+                                 gr:UnitPriceSpecification ;
+                        gr:hasCurrency "EUR" ;
+                        gr:hasCurrencyValue "1.0"^^xsd:float ;
+                        gr:hasUnitOfMeasurement "C62" .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/food01OfferingQuantity
+sdb:food01OfferingQuantity rdf:type owl:NamedIndividual ,
+                                    gr:QuantitativeValue ;
+                           gr:hasUnitOfMeasurement "LTR" ;
+                           gr:hasValue "0.5"^^xsd:float .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/food02
+sdb:food02 rdf:type owl:NamedIndividual ,
+                    pto:Popcorn ,
+                    mtparty:TakeawayFood ;
+           mtparty:hasFoodCategory mtparty:SaltedCategory ;
+           rdfs:label "Popcorn" .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/food02Offering
+sdb:food02Offering rdf:type owl:NamedIndividual ,
+                            mtparty:FoodOffering ;
+                   gr:acceptedPaymentMethods gr:Cash ;
+                   gr:hasEligibleQuantity sdb:food02OfferingQuantity ;
+                   gr:hasPriceSpecification sdb:food02OfferingPrice ;
+                   mtparty:includesFood sdb:food02 ;
+                   rdfs:label "Popcorn (small) Offering" .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/food02OfferingPrice
+sdb:food02OfferingPrice rdf:type owl:NamedIndividual ,
+                                 gr:UnitPriceSpecification ;
+                        gr:hasCurrency "EUR" ;
+                        gr:hasCurrencyValue "1.5"^^xsd:float ;
+                        gr:hasUnitOfMeasurement "C62" .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/food02OfferingQuantity
+sdb:food02OfferingQuantity rdf:type owl:NamedIndividual ,
+                                    gr:QuantitativeValue ;
+                           gr:hasUnitOfMeasurement "GRM" ;
+                           gr:hasValue 50 .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/pcs01
+sdb:pcs01 rdf:type owl:NamedIndividual ,
+                   gr:PaymentChargeSpecification ;
+          gr:appliesToPaymentMethod gr:PayPal .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/placePP01
+sdb:placePP01 rdf:type owl:NamedIndividual ,
+                       mtparty:PublicPlace ;
+              <http://www.w3.org/2003/01/geo/wgs84_pos#lat> 44.31191264105084 ;
+              <http://www.w3.org/2003/01/geo/wgs84_pos#long> 11.897891229151238 ;
+              rdfs:label "Cinedream Faenza" .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/placePP02
+sdb:placePP02 rdf:type owl:NamedIndividual ,
+                       mtparty:PublicPlace ;
+              schema:address sdb:placePP02Address ;
+              <http://www.w3.org/2003/01/geo/wgs84_pos#lat> 44.37061755204884 ;
+              <http://www.w3.org/2003/01/geo/wgs84_pos#long> 11.694958704705567 ;
+              rdfs:label "Drive-in Imola" .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/placePP02Address
+sdb:placePP02Address rdf:type owl:NamedIndividual ,
+                              schema:PostalAddress ;
+                     schema:addressCountry "ITA" ;
+                     schema:addressLocality "Imola" ;
+                     schema:addressRegion "Emilia-Romagna" ;
+                     schema:postalCode "40026" ;
+                     schema:streetAddress "Via Casola Canina, 3" .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/placePR01
+sdb:placePR01 rdf:type owl:NamedIndividual ,
+                       schema:Residence ;
+              mtparty:isResidenceOf sdb:agent08 ;
+              rdfs:label "Residence of agent08" .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/placePR01Address
+sdb:placePR01Address rdf:type owl:NamedIndividual ;
+                     schema:addressRegion "WA" ;
+                     schema:postalCode 98052 ;
+                     schema:streetAddress "20341 Whitworth Institute 405 N. Whitworth" .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/placeV01
+sdb:placeV01 rdf:type owl:NamedIndividual ;
+             schema:url "https://stream.example.com/121221"^^xsd:anyURI .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/placeV02
+sdb:placeV02 rdf:type owl:NamedIndividual ;
+             schema:url "https://stream.example.com/30303" .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/pwt01
+sdb:pwt01 rdf:type owl:NamedIndividual ,
+                   mtparty:ParticipantWithTicket ;
+          mtparty:pwt_person sdb:agent02 ;
+          mtparty:pwt_ticket sdb:ticket01 .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/pwt02
+sdb:pwt02 rdf:type owl:NamedIndividual ,
+                   mtparty:ParticipantWithTicket ;
+          mtparty:pwt_person sdb:agent00 ;
+          mtparty:pwt_ticket sdb:ticket02 .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/pwt03
+sdb:pwt03 rdf:type owl:NamedIndividual ,
+                   mtparty:ParticipantWithTicket ;
+          mtparty:pwt_person sdb:agent01 ;
+          mtparty:pwt_ticket sdb:ticket03 .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/reactionTVParty01Agent00
+sdb:reactionTVParty01Agent00 rdf:type owl:NamedIndividual ;
+                             mtparty:isReactionOf sdb:agent00 ;
+                             mtparty:comment "Lorem ipsum dolor sit amet quis nostrum exercitationem ullam corporis suscipit laboriosam" ;
+                             mtparty:rating 7 .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/reactionTVParty01Agent01
+sdb:reactionTVParty01Agent01 rdf:type owl:NamedIndividual ;
+                             mtparty:isReactionOf sdb:agent01 ;
+                             mtparty:rating 8 .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/reactionTVParty01Agent02
+sdb:reactionTVParty01Agent02 rdf:type owl:NamedIndividual ;
+                             mtparty:isReactionOf sdb:agent02 ;
+                             mtparty:rating 10 .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/reactionTVParty04Agent03
+sdb:reactionTVParty04Agent03 rdf:type owl:NamedIndividual ;
+                             mtparty:isReactionOf sdb:agent03 ;
+                             mtparty:rating 10 .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/sellerE01
+sdb:sellerE01 rdf:type owl:NamedIndividual ;
+              gr:offers sdb:entranceOffering01 .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/sellerF01
+sdb:sellerF01 rdf:type owl:NamedIndividual ;
+              mtparty:sellsFood sdb:food02Offering .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/sellerF02
+sdb:sellerF02 rdf:type owl:NamedIndividual ;
+              mtparty:sellsFood sdb:food01Offering .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/sellerT01
+sdb:sellerT01 rdf:type owl:NamedIndividual ,
+                       mtparty:TicketSeller ;
+              owl:differentFrom sdb:sellerT02 ;
+              mtparty:sellsTicket sdb:sto01 ,
+                                  sdb:sto02 .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/sellerT02
+sdb:sellerT02 rdf:type owl:NamedIndividual ,
+                       mtparty:Seller ;
+              mtparty:sellsTicket sdb:sto03 ;
+              rdfs:comment "Unofficial ticket seller of TV Party" .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/sellerT03
+sdb:sellerT03 rdf:type owl:NamedIndividual ;
+              mtparty:sellsTicket sdb:sto04 .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/seqshows01
+sdb:seqshows01 rdf:type owl:NamedIndividual ;
+               rdf:_1 sdb:show01 ;
+               rdf:_2 sdb:show02 ;
+               rdf:_3 sdb:show03 .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/seqshows02
+sdb:seqshows02 rdf:type owl:NamedIndividual ;
+               rdf:_1 sdb:serietv01_season01_episode01 ;
+               rdf:_2 sdb:serietv01_season01_episode02 ;
+               rdf:_3 sdb:serietv01_season01_episode03 .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/serietv01
+sdb:serietv01 rdf:type owl:NamedIndividual ,
+                       schema:TVSeries ;
+              schema:genre "crime" ,
+                           "drama" ,
+                           "horror" ,
+                           "sci-fi" ;
+              rdfs:label "Fringe" .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/serietv01_season01
+sdb:serietv01_season01 rdf:type owl:NamedIndividual ,
+                                schema:TVSeason ;
+                       schema:partOfSeries sdb:serietv01 ;
+                       schema:genre "crime" ,
+                                    "mistery" ;
+                       schema:seasonNumber 1 ;
+                       rdfs:label "Fringe season 1" .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/serietv01_season01_episode01
+sdb:serietv01_season01_episode01 rdf:type owl:NamedIndividual ,
+                                          schema:Episode ;
+                                 schema:partOfSeason sdb:serietv01_season01 ;
+                                 schema:episodeNumber 1 ;
+                                 mtparty:runtimeMinutes "82"^^xsd:positiveInteger ;
+                                 rdfs:label "Fringe 1x01 Pilot" .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/serietv01_season01_episode02
+sdb:serietv01_season01_episode02 rdf:type owl:NamedIndividual ,
+                                          schema:Episode ;
+                                 schema:partOfSeason sdb:serietv01_season01 ;
+                                 schema:episodeNumber 2 ;
+                                 mtparty:runtimeMinutes "51"^^xsd:positiveInteger ;
+                                 rdfs:label "Fringe 1x02 The Same Old Story" .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/serietv01_season01_episode03
+sdb:serietv01_season01_episode03 rdf:type owl:NamedIndividual ,
+                                          schema:Episode ;
+                                 schema:partOfSeason sdb:serietv01_season01 ;
+                                 schema:episodeNumber 3 ;
+                                 mtparty:runtimeMinutes "49"^^xsd:positiveInteger ;
+                                 rdfs:label "Fringe 1x03 The Ghost Network" .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/serietv01_season05
+sdb:serietv01_season05 rdf:type owl:NamedIndividual ,
+                                schema:TVSeason ;
+                       schema:partOfSeries sdb:serietv01 ;
+                       schema:genre "Dystopia" ;
+                       schema:seasonNumber 5 ;
+                       rdfs:label "Fringe season 5" .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/show01
+sdb:show01 rdf:type owl:NamedIndividual ,
+                    schema:Movie ;
+           schema:genre "action" ,
+                        "fantasy" ,
+                        "horror" ;
+           mtparty:runtimeMinutes "121"^^xsd:positiveInteger ;
+           rdfs:label "Underworld" .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/show02
+sdb:show02 rdf:type owl:NamedIndividual ,
+                    schema:Movie ;
+           schema:genre "action" ,
+                        "fantasy" ,
+                        "horror" ,
+                        "thriller" ;
+           mtparty:runtimeMinutes "102"^^xsd:positiveInteger ;
+           rdfs:label "Underworld: Evolution" .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/show03
+sdb:show03 rdf:type owl:NamedIndividual ,
+                    schema:Movie ;
+           schema:genre "fantasy" ,
+                        "horror" ,
+                        "thriller" ;
+           mtparty:runtimeMinutes "92"^^xsd:positiveInteger ;
+           rdfs:label "Underworld: Rise of the Lycans" .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/sto01
+sdb:sto01 rdf:type owl:NamedIndividual ,
+                   mtparty:SellerTicketOffering ;
+          gr:acceptedPaymentMethods gr:Cash ,
+                                    gr:MasterCard ,
+                                    gr:PayPal ;
+          gr:hasPriceSpecification sdb:ticketPrice ;
+          mtparty:includesTicketModel sdb:ticketModelOfTVParty01 ;
+          rdfs:comment "Seller Offering number 1 about TV Party" .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/sto02
+sdb:sto02 rdf:type owl:NamedIndividual ,
+                   mtparty:SellerTicketOffering ;
+          gr:acceptedPaymentMethods gr:Cash ;
+          gr:hasPriceSpecification sdb:ticketReducedPrice ;
+          mtparty:includesTicketModel sdb:ticketModelOfTVParty01 ;
+          rdfs:comment "Seller Offering number 2 about TV Party" .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/sto03
+sdb:sto03 rdf:type owl:NamedIndividual ,
+                   mtparty:SellerTicketOffering ;
+          gr:acceptedPaymentMethods gr:Cash ;
+          gr:hasPriceSpecification sdb:ticketPriceUnofficial ;
+          mtparty:includesTicketModel sdb:ticketModelOfTVParty01 ;
+          rdfs:comment "Unofficial Seller Offering number 3 about TV Party" .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/sto04
+sdb:sto04 rdf:type owl:NamedIndividual ;
+          gr:hasPriceSpecification sdb:ticketPrice ;
+          mtparty:includesTicketModel sdb:ticketModelOfTVParty02 .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/ticket01
+sdb:ticket01 rdf:type owl:NamedIndividual ,
+                      mtparty:PhysicalTicket ;
+             mtparty:hasTicketModel sdb:ticketModelOfTVParty01 ;
+             gr:serialNumber "AA1122WW" ;
+             mtparty:row "A" ;
+             mtparty:seat 1 ;
+             rdfs:comment "Ticket row A seat 1 of TV Party" .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/ticket02
+sdb:ticket02 rdf:type owl:NamedIndividual ,
+                      mtparty:PhysicalTicket ;
+             mtparty:hasTicketModel sdb:ticketModelOfTVParty01 ;
+             gr:serialNumber "AA1122WZ" ;
+             mtparty:row "A" ;
+             mtparty:seat 2 ;
+             rdfs:comment "Ticket row A seat 2 of TV Party" .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/ticket03
+sdb:ticket03 rdf:type owl:NamedIndividual ,
+                      mtparty:PhysicalTicket ;
+             mtparty:hasTicketModel sdb:ticketModelOfTVParty01 ;
+             gr:serialNumber "AA1122WA" ;
+             mtparty:row "A" ;
+             mtparty:seat 3 ;
+             rdfs:comment "Ticket row A seat 3 of TV Party" .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/ticket04
+sdb:ticket04 rdf:type owl:NamedIndividual ,
+                      mtparty:PhysicalTicket ;
+             mtparty:hasTicketModel sdb:ticketModelOfTVParty02 ;
+             gr:serialNumber "AWAEE112" ;
+             mtparty:row "G" ;
+             mtparty:seat 5 ;
+             rdfs:comment "Ticket row G seat 5 of TV Party" .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/ticketModelOfTVParty01
+sdb:ticketModelOfTVParty01 rdf:type owl:NamedIndividual ,
+                                    mtparty:TicketModel ;
+                           mtparty:relatedToPublicTVParty sdb:tvparty01 .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/ticketModelOfTVParty02
+sdb:ticketModelOfTVParty02 rdf:type owl:NamedIndividual ;
+                           mtparty:relatedToPublicTVParty sdb:tvparty02 .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/ticketPrice
+sdb:ticketPrice rdf:type owl:NamedIndividual ,
+                         gr:UnitPriceSpecification ;
+                gr:hasCurrency "EUR" ;
+                gr:hasCurrencyValue "8.0"^^xsd:float ;
+                gr:hasUnitOfMeasurement "C62" ;
+                rdfs:comment "Full Price of Tv Party" .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/ticketPriceUnofficial
+sdb:ticketPriceUnofficial rdf:type owl:NamedIndividual ,
+                                   gr:UnitPriceSpecification ;
+                          gr:hasCurrency "EUR" ;
+                          gr:hasCurrencyValue "7.0"^^xsd:float ;
+                          gr:hasUnitOfMeasurement "C62" .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/ticketReducedPrice
+sdb:ticketReducedPrice rdf:type owl:NamedIndividual ,
+                                gr:UnitPriceSpecification ;
+                       gr:hasCurrency "EUR" ;
+                       gr:hasCurrencyValue "5.0"^^xsd:float ;
+                       gr:hasUnitOfMeasurement "C62" ;
+                       rdfs:comment "Reduced Price of Tv Party" .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/tvparty01
+sdb:tvparty01 rdf:type owl:NamedIndividual ,
+                       mtparty:PublicTVParty ;
+              mtparty:foodMenu sdb:tvparty01_foodmenu ;
+              mtparty:foodseller sdb:sellerF01 ,
+                                 sdb:sellerF02 ;
+              mtparty:hasStatus mtparty:InProgressStatus ;
+              mtparty:organizer sdb:agent05 ;
+              mtparty:participantWithTicket sdb:pwt01 ,
+                                            sdb:pwt02 ,
+                                            sdb:pwt03 ;
+              mtparty:physicalPlace sdb:placePP01 ;
+              mtparty:reaction sdb:reactionTVParty01Agent00 ,
+                               sdb:reactionTVParty01Agent01 ,
+                               sdb:reactionTVParty01Agent02 ;
+              mtparty:seller sdb:sellerE01 ;
+              mtparty:ticketseller sdb:sellerT01 ;
+              mtparty:tvPartyShowSequence sdb:seqshows01 .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/tvparty01_foodmenu
+sdb:tvparty01_foodmenu rdf:type owl:NamedIndividual ;
+                       rdfs:member sdb:food01Offering ,
+                                   sdb:food02Offering .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/tvparty02
+sdb:tvparty02 rdf:type owl:NamedIndividual ;
+              mtparty:hasStatus mtparty:PendingStatus ;
+              mtparty:organizer sdb:agent06 ;
+              mtparty:participant sdb:agent04 ,
+                                  sdb:agent09 ;
+              mtparty:physicalPlace sdb:placePP02 ;
+              mtparty:seller sdb:sellerE01 ;
+              mtparty:ticketseller sdb:sellerT03 .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/tvparty03
+sdb:tvparty03 rdf:type owl:NamedIndividual ,
+                       mtparty:PublicTVParty ;
+              mtparty:hasStatus mtparty:PendingStatus ;
+              mtparty:organizer sdb:agent07 ;
+              mtparty:virtualPlace sdb:placeV01 .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/tvparty04
+sdb:tvparty04 rdf:type owl:NamedIndividual ,
+                       mtparty:PrivateTVParty ;
+              mtparty:organizer sdb:agent08 ;
+              mtparty:participant sdb:agent03 ;
+              mtparty:physicalPlace sdb:placePR01 ;
+              mtparty:reaction sdb:reactionTVParty04Agent03 ;
+              mtparty:tvPartyShowSequence sdb:seqshows02 .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/tvparty05
+sdb:tvparty05 rdf:type owl:NamedIndividual ,
+                       mtparty:PrivateTVParty ;
+              mtparty:organizer sdb:agent08 ;
+              mtparty:physicalPlace sdb:placePR01 .
+
+
+###  http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/tvparty06
+sdb:tvparty06 rdf:type owl:NamedIndividual ,
+                       mtparty:PrivateTVParty ;
+              mtparty:virtualPlace sdb:placeV02 .
+
+
+#################################################################
+#    General axioms
+#################################################################
+
+[ rdf:type owl:AllDifferent ;
+  owl:distinctMembers ( <http://moustaki.org/foaf.rdf#moustaki>
+                        <http://purl.org/NET/c4dm/event.owl>
+                        gr:AmericanExpress
+                        gr:Business
+                        gr:Buy
+                        gr:ByBankTransferInAdvance
+                        gr:ByInvoice
+                        gr:COD
+                        gr:Cash
+                        gr:CheckInAdvance
+                        gr:ConstructionInstallation
+                        gr:DHL
+                        gr:DeliveryModeDirectDownload
+                        gr:DeliveryModeFreight
+                        gr:DeliveryModeMail
+                        gr:DeliveryModeOwnFleet
+                        gr:DeliveryModePickUp
+                        gr:DinersClub
+                        gr:DirectDebit
+                        gr:Discover
+                        gr:Dispose
+                        gr:Enduser
+                        gr:FederalExpress
+                        gr:Friday
+                        gr:GoogleCheckout
+                        gr:JCB
+                        gr:Labor-BringIn
+                        gr:LeaseOut
+                        gr:Maintain
+                        gr:MasterCard
+                        gr:Monday
+                        gr:PartsAndLabor-BringIn
+                        gr:PartsAndLabor-PickUp
+                        gr:PayPal
+                        gr:PaySwarm
+                        gr:ProvideService
+                        gr:PublicHolidays
+                        gr:PublicInstitution
+                        gr:Repair
+                        gr:Reseller
+                        gr:Saturday
+                        gr:Sell
+                        gr:Sunday
+                        gr:Thursday
+                        gr:Tuesday
+                        gr:UPS
+                        gr:VISA
+                        gr:Wednesday
+                        <http://www.opengis.net/def/uom/ISO-8601/0/Gregorian>
+                        mtparty:CancelledStatus
+                        mtparty:DrinkCategory
+                        mtparty:EndedStatus
+                        mtparty:InProgressStatus
+                        mtparty:PendingStatus
+                        mtparty:SaltedCategory
+                        mtparty:SellNotSeparated
+                        mtparty:SweetCategory
+                        sdb:agent00
+                        sdb:agent01
+                        sdb:agent02
+                        sdb:agent03
+                        sdb:agent04
+                        sdb:agent05
+                        sdb:agent06
+                        sdb:agent07
+                        sdb:agent08
+                        sdb:agent09
+                        sdb:bto1
+                        sdb:bto2
+                        sdb:bto3
+                        sdb:bto4
+                        sdb:cartFoodAgent00
+                        sdb:cartFoodItem01Agent00
+                        sdb:cartFoodItem01QuantityAgent00
+                        sdb:cartTicketAgent00
+                        sdb:entranceOffering01
+                        sdb:food01
+                        sdb:food01Offering
+                        sdb:food01OfferingPrice
+                        sdb:food01OfferingQuantity
+                        sdb:food02
+                        sdb:food02Offering
+                        sdb:food02OfferingPrice
+                        sdb:food02OfferingQuantity
+                        sdb:pcs01
+                        sdb:placePP01
+                        sdb:placePP02
+                        sdb:placePP02Address
+                        sdb:placePR01
+                        sdb:placePR01Address
+                        sdb:placeV01
+                        sdb:placeV02
+                        sdb:pwt01
+                        sdb:pwt02
+                        sdb:pwt03
+                        sdb:reactionTVParty01Agent00
+                        sdb:reactionTVParty01Agent01
+                        sdb:reactionTVParty01Agent02
+                        sdb:reactionTVParty04Agent03
+                        sdb:sellerE01
+                        sdb:sellerF01
+                        sdb:sellerF02
+                        sdb:sellerT01
+                        sdb:sellerT02
+                        sdb:sellerT03
+                        sdb:seqshows01
+                        sdb:seqshows02
+                        sdb:serietv01
+                        sdb:serietv01_season01
+                        sdb:serietv01_season01_episode01
+                        sdb:serietv01_season01_episode02
+                        sdb:serietv01_season01_episode03
+                        sdb:serietv01_season05
+                        sdb:show01
+                        sdb:show02
+                        sdb:show03
+                        sdb:sto01
+                        sdb:sto02
+                        sdb:sto03
+                        sdb:sto04
+                        sdb:ticket01
+                        sdb:ticket02
+                        sdb:ticket03
+                        sdb:ticket04
+                        sdb:ticketModelOfTVParty01
+                        sdb:ticketModelOfTVParty02
+                        sdb:ticketPrice
+                        sdb:ticketPriceUnofficial
+                        sdb:ticketReducedPrice
+                        sdb:tvparty01
+                        sdb:tvparty01_foodmenu
+                        sdb:tvparty02
+                        sdb:tvparty03
+                        sdb:tvparty04
+                        sdb:tvparty05
+                        sdb:tvparty06
+                        <http://www.w3.org/2006/time#Friday>
+                        <http://www.w3.org/2006/time#Monday>
+                        <http://www.w3.org/2006/time#Saturday>
+                        <http://www.w3.org/2006/time#Sunday>
+                        <http://www.w3.org/2006/time#Thursday>
+                        <http://www.w3.org/2006/time#Tuesday>
+                        <http://www.w3.org/2006/time#Wednesday>
+                        <http://www.w3.org/2006/time#unitDay>
+                        <http://www.w3.org/2006/time#unitHour>
+                        <http://www.w3.org/2006/time#unitMinute>
+                        <http://www.w3.org/2006/time#unitMonth>
+                        <http://www.w3.org/2006/time#unitSecond>
+                        <http://www.w3.org/2006/time#unitWeek>
+                        <http://www.w3.org/2006/time#unitYear>
+                      )
+] .
+
+
+###  Generated by the OWL API (version 4.5.25.2023-02-15T19:15:49Z) https://github.com/owlcs/owlapi

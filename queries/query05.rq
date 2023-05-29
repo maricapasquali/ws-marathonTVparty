@@ -1,0 +1,17 @@
+PREFIX mtparty: <http://www.semanticweb.org/marica/ontologies/marathontvparty/>
+PREFIX sdb: <http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/>
+
+SELECT ?TVParty
+    (COALESCE(AVG(?rating), 0) AS ?avgRating)
+    (COUNT(?reaction) AS ?numReaction)
+WHERE {
+    ?TVParty a mtparty:TVParty.
+    OPTIONAL{
+        ?TVParty mtparty:reaction ?reaction;
+            mtparty:participant ?participant.
+        ?reaction mtparty:isReactionOf ?participant;
+            mtparty:rating ?rating.
+    }
+}
+GROUP BY ?TVParty
+ORDER BY DESC(?avgRating)

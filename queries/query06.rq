@@ -1,0 +1,37 @@
+PREFIX mtparty: <http://www.semanticweb.org/marica/ontologies/marathontvparty/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX schema: <http://schema.org/>
+PREFIX sdb: <http://www.semanticweb.org/marica/ontologies/marathontvparty/sample-db/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+SELECT ?TVParty ?position ?showLabel ?seasonLabel ?serieLabel
+WHERE {
+    FILTER (STRSTARTS(STR(?membership), STR(rdf:_)))
+    ?TVParty mtparty:tvPartyShowSequence ?tvPartyShowSeq.
+    {
+        ?tvPartyShowSeq ?membership ?showId.
+    }
+    UNION
+    {
+        ?tvPartyShowSeq ?membership ?showItem.
+        ?showItem mtparty:hasShow ?showId.
+    }
+    OPTIONAL { ?showId rdfs:label ?showLabel . }
+
+    OPTIONAL {
+        {
+            ?showId schema:partOfSeason ?seasonId .
+            ?seasonId schema:partOfSeries ?serieId .
+        } UNION {
+            ?showId schema:partOfSeries ?serieId .
+        }
+        OPTIONAL { ?seasonId rdfs:label ?seasonLabel . }
+        OPTIONAL { ?serieId rdfs:label ?serieLabel . }
+    }
+    BIND((xsd:integer(REPLACE(STR(?membership), STR(rdf:_), ""))) AS ?position)
+}
+ORDER BY ?TVParty ?position
+
+
+
